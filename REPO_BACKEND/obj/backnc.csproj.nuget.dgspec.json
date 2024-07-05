@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mateo\\source\\repos\\backnc\\backnc.csproj": {}
+    "C:\\Users\\Mateo\\Desktop\\projects\\c19-12-m-csharp-angular\\REPO_BACKEND\\backnc.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mateo\\source\\repos\\backnc\\backnc.csproj": {
+    "C:\\Users\\Mateo\\Desktop\\projects\\c19-12-m-csharp-angular\\REPO_BACKEND\\backnc.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mateo\\source\\repos\\backnc\\backnc.csproj",
+        "projectUniqueName": "C:\\Users\\Mateo\\Desktop\\projects\\c19-12-m-csharp-angular\\REPO_BACKEND\\backnc.csproj",
         "projectName": "backnc",
-        "projectPath": "C:\\Users\\Mateo\\source\\repos\\backnc\\backnc.csproj",
+        "projectPath": "C:\\Users\\Mateo\\Desktop\\projects\\c19-12-m-csharp-angular\\REPO_BACKEND\\backnc.csproj",
         "packagesPath": "C:\\Users\\Mateo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mateo\\source\\repos\\backnc\\obj\\",
+        "outputPath": "C:\\Users\\Mateo\\Desktop\\projects\\c19-12-m-csharp-angular\\REPO_BACKEND\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Mateo\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,6 +40,24 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.29, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.29, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.5.0, )"
