@@ -1,0 +1,19 @@
+<mat-drawer-container class="flex" autosize>
+   <!--  TODO: SIDEBAR -->
+    <mat-drawer #drawer class="flex h-screen fixed w-screen sm:w-3" mode="side">
+      <h1>Sidebar</h1>
+     
+      <button (click)="drawer.toggle()" mat-raised-button>
+        Toggle sidenav
+      </button>
+    </mat-drawer>
+  
+    <div class="h-full p-6">
+      <button type="button" mat-button (click)="drawer.toggle()">
+        Toggle sidenav
+      </button>
+    </div>
+
+    <router-outlet/>
+  
+  </mat-drawer-container>
