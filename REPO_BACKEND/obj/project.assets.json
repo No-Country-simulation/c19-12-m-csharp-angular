@@ -2731,19 +2731,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Mateo\\.nuget\\packages\\": {}
+    "C:\\Users\\chris\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Mateo\\Desktop\\projects\\c19-12-m-csharp-angular\\REPO_BACKEND\\backnc.csproj",
+      "projectUniqueName": "C:\\Users\\chris\\OneDrive\\Desktop\\nocountry\\c19-12-m-csharp-angular\\REPO_BACKEND\\backnc.csproj",
       "projectName": "backnc",
-      "projectPath": "C:\\Users\\Mateo\\Desktop\\projects\\c19-12-m-csharp-angular\\REPO_BACKEND\\backnc.csproj",
-      "packagesPath": "C:\\Users\\Mateo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Mateo\\Desktop\\projects\\c19-12-m-csharp-angular\\REPO_BACKEND\\obj\\",
+      "projectPath": "C:\\Users\\chris\\OneDrive\\Desktop\\nocountry\\c19-12-m-csharp-angular\\REPO_BACKEND\\backnc.csproj",
+      "packagesPath": "C:\\Users\\chris\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\chris\\OneDrive\\Desktop\\nocountry\\c19-12-m-csharp-angular\\REPO_BACKEND\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Mateo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\chris\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2819,7 +2819,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

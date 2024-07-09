@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using backnc.Data.POCOEntities;
+using Microsoft.EntityFrameworkCore;
 
 namespace backnc.Data
 {
@@ -8,6 +9,6 @@ namespace backnc.Data
 		{
 
 		}
-
+		public DbSet<TodoTest> todoTests { get; set; }
 	}
 }
