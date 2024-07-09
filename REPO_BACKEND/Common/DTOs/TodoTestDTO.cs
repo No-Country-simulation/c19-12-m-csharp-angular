@@ -1,4 +1,4 @@
-﻿namespace backnc.DTOs
+﻿namespace backnc.Common.DTOs
 {
     public class TodoTestDTO
     {
