@@ -1,22 +1,25 @@
 import { Routes } from '@angular/router';
-import { IndexComponent } from './core/components/index/index.component';
-import { LoginComponent } from './auth/components/login/login.component';
 
 export const routes: Routes = [
-
   {
     path: '',
-    component: IndexComponent,
+    loadChildren: () =>
+      import('./core/routes/index.routes').then((m) => m.indexRoutes),
+  },
+  {
+    path: 'auth',
+    //TODO: GUARD isNotAuthenticated
+    loadChildren: () =>
+      import('./auth/routes/auth.routes').then((m) => m.authRoutes),
   },
   {
     path: 'dashboard',
-    //TODO : GUARD
+    //TODO : GUARD isAuthenticated
     loadChildren: () =>
       import('./core/routes/dashboard.routes').then((m) => m.dashboardRoutes),
   },
   {
     path: '**',
-    redirectTo: '',
+    redirectTo: '/',
   },
-
 ];
