@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-registro',
+  selector: 'auth-registro',
   standalone: true,
   imports: [],
   templateUrl: './registro.component.html',
