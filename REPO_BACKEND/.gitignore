@@ -100,7 +100,5 @@ CMakeLists.txt.user
 CTestTestfile.cmake
 Make
 
-# Exclude environment-specific appsettings files
-appsettings.Development.json
-appsettings.Production.json
-appsettings.Local.json
+# Env Variables
+.env
