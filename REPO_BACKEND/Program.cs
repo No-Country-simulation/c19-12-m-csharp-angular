@@ -1,37 +1,74 @@
-using backnc.Data;
-using Microsoft.AspNetCore.Builder;
+using backnc.Data.Context;
+using backnc.Data.Interface;
+using backnc.Service;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using DotNetEnv;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Hago una cadena de conexión que va a servir para enlazarse con el appsettings.json.
+// Cargar variables de entorno desde archivo .env
+Env.Load();
+
+// Obtener la cadena de conexión del archivo de configuración
 string connectionString = builder.Configuration.GetConnectionString("defaultConnection");
-// En la siguiente linea hago la conexión.
+
+// Reemplazar las variables de entorno en la cadena de conexión
+connectionString = connectionString.Replace("${DB_SERVER}", Env.GetString("DB_SERVER"))
+                                   .Replace("${DB_NAME}", Env.GetString("DB_NAME"));
+								   
+// Configurar el DbContext con la cadena de conexión
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
-
-
-// Add services to the container.
+// Agregar otros servicios al contenedor
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAppDbContext, AppDbContext>();
+builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
-// Con esta linea agrego swagger
-builder.Services.AddSwaggerGen();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
+});
+
+//CORS
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowSpecificOrigin",
+//        builder =>
+//        {
+//            builder.WithOrigins("http://localhost:4200")
+//                   .AllowAnyHeader()
+//                   .AllowAnyMethod();
+//        });
+//});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-
-// CONFIG DE SWAGGER
 if (app.Environment.IsDevelopment())
 {
-	app.UseSwagger();
-	app.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
+
+//app.UseCors("AllowSpecificOrigin");
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
