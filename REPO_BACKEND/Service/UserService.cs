@@ -1,10 +1,14 @@
 ﻿using AutoMapper;
+using backnc.Common;
 using backnc.Common.DTOs;
 using backnc.Common.Response;
+using backnc.Data.ConfigEntities;
 using backnc.Data.Context;
 using backnc.Data.Interface;
 using backnc.Data.POCOEntities;
+using backnc.Interfaces;
 using backnc.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -24,19 +28,78 @@ namespace backnc.Service
             _context = context;
             _configuration = configuration;
         }
-        public async Task<BaseResponse> Authenticate(LoginUser userLogin)
-        {
-            var user = await _context.Users
-           .Where(u => u.UserName == userLogin.UserName && u.Password == userLogin.Password).FirstOrDefaultAsync();
-           
-            if (user == null)
-            {
-                return Response.ValidationError("Usuario no encontrado", new List<string> { "El usuario no existe o las credenciales son incorrectas." });
-            }
-            var token = Generate(user);
-            return Response.Success(token);
-        }
-        private string Generate(User user)
+		public async Task<BaseResponse> Authenticate(LoginUser userLogin)
+		{
+			var user = await _context.Users
+				.Where(u => u.UserName == userLogin.UserName)
+				.FirstOrDefaultAsync();
+
+			if (user == null)
+			{
+				return Response.ValidationError("Usuario no encontrado", new List<string> { "El usuario no existe o las credenciales son incorrectas." });
+			}
+
+			var hashedPassword = PasswordHasher.HashPassword(userLogin.Password);
+			if (user.Password != hashedPassword)
+			{
+				return Response.ValidationError("Credenciales incorrectas", new List<string> { "El usuario no existe o las credenciales son incorrectas." });
+			}
+
+			var token = Generate(user);
+			return Response.Success(token);
+		}
+		public async Task<BaseResponse> Register(RegisterUser registerUser)
+		{			
+			var validator = new RegisterUserValidator();
+			var validationResult = await validator.ValidateAsync(registerUser);
+
+			if (!validationResult.IsValid)
+			{
+				return Response.ValidationError("Error de validación", validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+			}
+			
+			var existingUser = await _context.Users
+				.Where(u => u.UserName == registerUser.userName)
+				.FirstOrDefaultAsync();
+
+			if (existingUser != null)
+			{
+				return Response.ValidationError("Usuario ya existe", new List<string> { "El nombre de usuario ya está tomado." });
+			}
+			
+			var user = new User
+			{
+				UserName = registerUser.userName,
+                firstName = registerUser.firstName,
+                lastName = registerUser.lastName,
+                email = registerUser.email,
+                dni = registerUser.dni,
+				//address = registerUser.address,
+				phoneNumber = registerUser.phoneNumber,
+				Password = PasswordHasher.HashPassword(registerUser.password)
+				
+			};
+
+			_context.Users.Add(user);
+			await _context.SaveChangesAsync();
+			
+			var role = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "Cliente");
+			if (role == null)
+			{
+				return Response.ValidationError("Rol no encontrado", new List<string> { "El rol 'Cliente' no existe." });
+			}
+			var userRole = new UserRole
+			{
+				UserId = user.Id,
+				RoleId = role.Id
+			};
+			_context.UserRoles.Add(userRole);
+			await _context.SaveChangesAsync();
+
+			return Response.Success("Usuario registrado exitosamente");
+		}
+
+		private string Generate(User user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

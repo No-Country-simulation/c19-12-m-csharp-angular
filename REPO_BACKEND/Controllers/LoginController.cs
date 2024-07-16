@@ -1,6 +1,6 @@
 ﻿using backnc.Common.Response;
+using backnc.Interfaces;
 using backnc.Models;
-using backnc.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backnc.Controllers
@@ -22,5 +22,17 @@ namespace backnc.Controllers
         {
             return  await _userService.Authenticate(userLogin);
         }
+        
+        [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterUser registerUser)
+    {
+        var result = await _userService.Register(registerUser);
+        if (!result.IsSuccess)
+        {
+            return BadRequest(result);
+        }
+
+        return Ok(result);
+    }
     }
 }
