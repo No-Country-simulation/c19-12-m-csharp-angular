@@ -66,3 +66,9 @@ npm run envs
         └── 📁pipes
         └── 📁services
 ```
+## Para descargar todas las dependencias
+`npm install`
+
+## Para levantar el frontend
+`ng serve -o`
+```
