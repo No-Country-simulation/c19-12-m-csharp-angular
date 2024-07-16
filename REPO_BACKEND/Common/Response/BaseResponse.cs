@@ -5,7 +5,9 @@
         public string status { get; set; } = "success";
         public string message { get; set; }
         public object data { get; set; }
-        public BaseResponse(){}
+		public bool IsSuccess { get; internal set; }
+
+		public BaseResponse(){}
         public BaseResponse(object data)
         {
             this.data = data;

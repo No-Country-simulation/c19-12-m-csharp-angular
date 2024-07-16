@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using DotNetEnv;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using backnc.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +26,10 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(conn
 
 // Agregar otros servicios al contenedor
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICountryService, CountryService>();
+builder.Services.AddScoped<IProvinceSerivce, ProvinceService>();
 builder.Services.AddScoped<IAppDbContext, AppDbContext>();
+
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
