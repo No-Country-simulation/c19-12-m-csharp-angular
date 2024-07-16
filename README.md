@@ -35,3 +35,22 @@ Entre las funcionalidades principales de la apliacación encontramos, un motor d
 |                               |
 | <img width="48" height="48" src="https://media.licdn.com/dms/image/D4E03AQFQ0LYgwFQWDA/profile-displayphoto-shrink_400_400/0/1681736743860?e=1726704000&v=beta&t=K66mlpclECtsGg5e41N99m7Ku-_--gu01_UhMzWvvQo" alt="Julver avatar" /> | Julver Vargas | UX/UI | [![Github](https://skillicons.dev/icons?i=github)]() [![Linkedin](https://skillicons.dev/icons?i=linkedin)](https://www.linkedin.com/in/julvertv/)          |
 |                               |
+
+## 🛠️ Tecnologías Utilizadas
+
+- Frontend: `Angular`
+- Backend: `.Net` 
+- QA: `Postman` `Swagger` `Trello` `XRay Workflow`
+- UX/UI: `Figma`
+- Tipo de Proyecto: `Web Application`
+
+## 🔗 Enlaces Importantes
+
+- [Documentación del Proyecto](ruta/a/documentacion.pdf)
+- [Guía de Estilo del Proyecto](https://www.figma.com/design/6zpFTDPZMJIABz5thVWbsm/MERCADO-CHAMBA?node-id=0-1&t=B9m0kH87pK3vAA2h-0)
+- [Organización del Proyecto](https://trello.com/b/JJlgL08E/backlog-c19-12-m-csharp-angular)
+- [GitHub del Proyecto](https://github.com/No-Country-simulation/c19-12-m-csharp-angular)
+
+### Algunos iconos
+
+[![My Skills](https://skillicons.dev/icons?i=spring,angular,figma&theme=dark)](https://skillicons.dev)
