@@ -2,6 +2,7 @@
 using backnc.Common;
 using backnc.Common.DTOs;
 using backnc.Common.Response;
+using backnc.Common.Validations;
 using backnc.Data.ConfigEntities;
 using backnc.Data.Context;
 using backnc.Data.Interface;
@@ -70,12 +71,12 @@ namespace backnc.Service
 			var user = new User
 			{
 				UserName = registerUser.userName,
-                firstName = registerUser.firstName,
-                lastName = registerUser.lastName,
-                email = registerUser.email,
-                dni = registerUser.dni,
+				//            firstName = registerUser.firstName,
+				//            lastName = registerUser.lastName,
+				//            email = registerUser.email,
+				//            dni = registerUser.dni,
 				//address = registerUser.address,
-				phoneNumber = registerUser.phoneNumber,
+				//phoneNumber = registerUser.phoneNumber,
 				Password = PasswordHasher.HashPassword(registerUser.password)
 				
 			};
@@ -83,18 +84,18 @@ namespace backnc.Service
 			_context.Users.Add(user);
 			await _context.SaveChangesAsync();
 			
-			var role = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "Cliente");
-			if (role == null)
-			{
-				return Response.ValidationError("Rol no encontrado", new List<string> { "El rol 'Cliente' no existe." });
-			}
-			var userRole = new UserRole
-			{
-				UserId = user.Id,
-				RoleId = role.Id
-			};
-			_context.UserRoles.Add(userRole);
-			await _context.SaveChangesAsync();
+			//var role = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "Cliente");
+			//if (role == null)
+			//{
+			//	return Response.ValidationError("Rol no encontrado", new List<string> { "El rol 'Cliente' no existe." });
+			//}
+			//var userRole = new UserRole
+			//{
+			//	UserId = user.Id,
+			//	RoleId = role.Id
+			//};
+			//_context.UserRoles.Add(userRole);
+			//await _context.SaveChangesAsync();
 
 			return Response.Success("Usuario registrado exitosamente");
 		}

@@ -1,13 +1,12 @@
 using backnc.Data.Context;
 using backnc.Data.Interface;
+using backnc.Interfaces;
 using backnc.Service;
+using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using DotNetEnv;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using backnc.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +30,10 @@ builder.Services.AddScoped<IProvinceSerivce, ProvinceService>();
 builder.Services.AddScoped<IAppDbContext, AppDbContext>();
 
 builder.Services.AddSwaggerGen();
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.IgnoreNullValues = true;
+}); ;
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
@@ -72,7 +74,9 @@ if (app.Environment.IsDevelopment())
 
 //app.UseCors("AllowSpecificOrigin");
 app.UseHttpsRedirection();
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
 app.Run();

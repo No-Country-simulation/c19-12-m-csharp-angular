@@ -21,6 +21,24 @@ namespace backnc.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("backnc.Data.POCOEntities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("backnc.Data.POCOEntities.Country", b =>
                 {
                     b.Property<int>("Id")
@@ -35,6 +53,29 @@ namespace backnc.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Countries");
+                });
+
+            modelBuilder.Entity("backnc.Data.POCOEntities.JobType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("JobTypes");
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.Neighborhood", b =>
@@ -95,6 +136,60 @@ namespace backnc.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("backnc.Data.POCOEntities.Story", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Image")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("StoryListId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StoryListId");
+
+                    b.ToTable("Stories");
+                });
+
+            modelBuilder.Entity("backnc.Data.POCOEntities.StoryList", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("UserJobTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserJobTypeId");
+
+                    b.ToTable("StoryLists");
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.TodoTest", b =>
@@ -162,6 +257,29 @@ namespace backnc.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("backnc.Data.POCOEntities.UserJobType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("JobTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobTypeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserJobTypes");
+                });
+
             modelBuilder.Entity("backnc.Data.POCOEntities.UserRole", b =>
                 {
                     b.Property<int>("UserId")
@@ -175,6 +293,17 @@ namespace backnc.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("UserRoles");
+                });
+
+            modelBuilder.Entity("backnc.Data.POCOEntities.JobType", b =>
+                {
+                    b.HasOne("backnc.Data.POCOEntities.Category", "Category")
+                        .WithMany("JobTypes")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.Neighborhood", b =>
@@ -199,6 +328,47 @@ namespace backnc.Migrations
                     b.Navigation("Country");
                 });
 
+            modelBuilder.Entity("backnc.Data.POCOEntities.Story", b =>
+                {
+                    b.HasOne("backnc.Data.POCOEntities.StoryList", "StoryList")
+                        .WithMany("Stories")
+                        .HasForeignKey("StoryListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("StoryList");
+                });
+
+            modelBuilder.Entity("backnc.Data.POCOEntities.StoryList", b =>
+                {
+                    b.HasOne("backnc.Data.POCOEntities.UserJobType", "UserJobType")
+                        .WithMany("StoryLists")
+                        .HasForeignKey("UserJobTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserJobType");
+                });
+
+            modelBuilder.Entity("backnc.Data.POCOEntities.UserJobType", b =>
+                {
+                    b.HasOne("backnc.Data.POCOEntities.JobType", "JobType")
+                        .WithMany("UserJobTypes")
+                        .HasForeignKey("JobTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backnc.Data.POCOEntities.User", "User")
+                        .WithMany("UserJobTypes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("JobType");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("backnc.Data.POCOEntities.UserRole", b =>
                 {
                     b.HasOne("backnc.Data.POCOEntities.Role", "Role")
@@ -218,9 +388,19 @@ namespace backnc.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("backnc.Data.POCOEntities.Category", b =>
+                {
+                    b.Navigation("JobTypes");
+                });
+
             modelBuilder.Entity("backnc.Data.POCOEntities.Country", b =>
                 {
                     b.Navigation("Provinces");
+                });
+
+            modelBuilder.Entity("backnc.Data.POCOEntities.JobType", b =>
+                {
+                    b.Navigation("UserJobTypes");
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.Province", b =>
@@ -233,9 +413,21 @@ namespace backnc.Migrations
                     b.Navigation("UserRoles");
                 });
 
+            modelBuilder.Entity("backnc.Data.POCOEntities.StoryList", b =>
+                {
+                    b.Navigation("Stories");
+                });
+
             modelBuilder.Entity("backnc.Data.POCOEntities.User", b =>
                 {
+                    b.Navigation("UserJobTypes");
+
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("backnc.Data.POCOEntities.UserJobType", b =>
+                {
+                    b.Navigation("StoryLists");
                 });
 #pragma warning restore 612, 618
         }

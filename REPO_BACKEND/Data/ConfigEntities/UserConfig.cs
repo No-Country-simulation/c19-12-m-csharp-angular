@@ -16,6 +16,10 @@ namespace backnc.Data.ConfigEntities
             builder.HasMany(u => u.UserRoles)
                    .WithOne(ur => ur.User)
                    .HasForeignKey(ur => ur.UserId);
+
+            builder.HasMany(u => u.UserJobTypes)
+               .WithOne(ujt => ujt.User)
+               .HasForeignKey(ujt => ujt.UserId);
         }
     }
 }

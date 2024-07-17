@@ -17,6 +17,7 @@ namespace backnc.Controllers
         {
 			this.countryService = countryService;
         }
+
 		[HttpGet]
 		public async Task<IActionResult> GetAllCountries()
 		{

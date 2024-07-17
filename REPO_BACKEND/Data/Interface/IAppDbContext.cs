@@ -13,7 +13,13 @@ namespace backnc.Data.Interface
 		DbSet<Province> Provinces { get; set; }
 		DbSet<Neighborhood> Neighborhoods { get; set; }
 
+        DbSet<Category> Categories { get; set; }
+        DbSet<JobType> JobTypes { get; set; }
+        DbSet<UserJobType> UserJobTypes { get; set; }
+        DbSet<StoryList> StoryLists { get; set; }
+        DbSet<Story> Stories { get; set; }
 
-		Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
