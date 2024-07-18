@@ -2,7 +2,7 @@
 
 ## 🌐 Proyecto MERCADO CHAMBA
 
-![Banner del Proyecto](ruta/a/la/imagen/banner.png)
+![Banner del Proyecto](https://github.com/No-Country-simulation/c19-12-m-csharp-angular/blob/main/ASSETS/logo.jpg)
 
 ## 📖 Descripción del Proyecto
 
