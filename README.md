@@ -33,7 +33,7 @@ Entre las funcionalidades principales de la apliacación encontramos, un motor d
 |                               |
 | <img width="48" height="48" src="https://avatars.githubusercontent.com/u/141964978?v=4" alt="johannatarabelli avatar" /> | Johanna | QA | [![Github](https://skillicons.dev/icons?i=github)](https://github.com/johannatarabelli) [![Linkedin](https://skillicons.dev/icons?i=linkedin)](https://www.linkedin.com/in/johanna-tarabelli-a2501041/) |
 |                               |
-| <img width="48" height="48" src="https://media.licdn.com/dms/image/D4E03AQFQ0LYgwFQWDA/profile-displayphoto-shrink_400_400/0/1681736743860?e=1726704000&v=beta&t=K66mlpclECtsGg5e41N99m7Ku-_--gu01_UhMzWvvQo" alt="Julver avatar" /> | Julver Vargas | UX/UI | [![Github](https://skillicons.dev/icons?i=github)]() [![Linkedin](https://skillicons.dev/icons?i=linkedin)](https://www.linkedin.com/in/julvertv/)          |
+| <img width="48" height="48" src="https://media.licdn.com/dms/image/D4E03AQFQ0LYgwFQWDA/profile-displayphoto-shrink_400_400/0/1681736743860?e=1726704000&v=beta&t=K66mlpclECtsGg5e41N99m7Ku-_--gu01_UhMzWvvQo" alt="Julver avatar" /> | Julver Vargas | UX/UI | [![Github](https://skillicons.dev/icons?i=github)](https://github.com/julvertv) [![Linkedin](https://skillicons.dev/icons?i=linkedin)](https://www.linkedin.com/in/julvertv/)          |
 |                               |
 
 ## 🛠️ Tecnologías Utilizadas
