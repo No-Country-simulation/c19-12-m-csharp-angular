@@ -1,57 +1,60 @@
 <div class="register-container">
   <h2 class="register__title">Hola Bienvenido!!</h2>
-  <form action="POST" class="register__form">
+  <form [formGroup]="formRegister" (ngSubmit)="submit()" class="register__form">
     <mat-form-field class="register__input-container">
-      <mat-label>Nombre de Usuario</mat-label>
-      <input type="text" id="userName" matInput />
+      <mat-label for="userName">Nombre de Usuario</mat-label>
+      <input type="text" id="userName" formControlName="userName" matInput />
     </mat-form-field>
     <mat-form-field class="register__input-container">
-      <mat-label>Nombre</mat-label>
-      <input type="text" matInput />
+      <mat-label for="firstName">Nombre</mat-label>
+      <input type="text" formControlName="firstName" matInput />
     </mat-form-field>
     <mat-form-field class="register__input-container">
-      <mat-label>Apellido</mat-label>
-      <input type="text" matInput />
-    </mat-form-field>
-
-    <mat-form-field class="register__input-container">
-      <mat-label>Correo Electrónico</mat-label>
-      <input type="email" matInput />
+      <mat-label for="lastName">Apellido</mat-label>
+      <input type="text" formControlName="lastName" matInput />
     </mat-form-field>
 
     <mat-form-field class="register__input-container">
-      <mat-label>N de Documento</mat-label>
-      <input type="number" matInput />
-    </mat-form-field>
-    <mat-form-field class="register__input-container">
-      <mat-label>Telefono</mat-label>
-      <input type="tel" matInput />
+      <mat-label for="email">Correo Electrónico</mat-label>
+      <input type="email" formControlName="email" matInput />
     </mat-form-field>
 
     <mat-form-field class="register__input-container">
-      <mat-label>Contraseña</mat-label>
-      <input type="password" matInput />
+      <mat-label for="dni">N de Documento</mat-label>
+      <input type="number" formControlName="dni" matInput />
+    </mat-form-field>
+    <mat-form-field class="register__input-container">
+      <mat-label for="phoneNumber">Telefono</mat-label>
+      <input type="tel" formControlName="phoneNumber" matInput />
     </mat-form-field>
 
     <mat-form-field class="register__input-container">
-      <mat-label>Pais</mat-label>
-      <input type="text" matInput />
+      <mat-label for="password">Contraseña</mat-label>
+      <input type="password" formControlName="password" matInput />
+    </mat-form-field>
+
+    <!-- <mat-form-field class="register__input-container">
+      <mat-label for="countryId">Pais</mat-label>
+      <input type="text" [formControl]="countryId" matInput />
     </mat-form-field>
     <mat-form-field class="register__input-container">
-      <mat-label>Provincia</mat-label>
-      <input type="text" matInput />
+      <mat-label for="provinceId">Provincia</mat-label>
+      <input type="text" [formControl]="provinceId" matInput />
     </mat-form-field>
     <mat-form-field class="register__input-container">
-      <mat-label>Codigo Postal</mat-label>
-      <input type="text" matInput />
-    </mat-form-field>
+      <mat-label for="neighborhoodId">Codigo Postal</mat-label>
+      <input type="text" [formControl]="neighborhoodId" matInput />
+    </mat-form-field> -->
 
     <div class="register__form-actions">
       <p>Ya tenes cuenta?</p>
       <a href="#">Iniciar Sesion</a>
     </div>
-    <button mat-flat-button color="primary" class="login__submit">
+    <button mat-flat-button color="primary" type="submit" class="login__submit">
       Registarse
     </button>
   </form>
+
+  <pre>{{ formRegister.value.userName | json }}</pre>
+  <pre>{{ formRegister.valid | json }}</pre>
 </div>
