@@ -1,1 +1,57 @@
-<p>registro works!</p>
+<div class="register-container">
+  <h2 class="register__title">Hola Bienvenido!!</h2>
+  <form action="POST" class="register__form">
+    <mat-form-field class="register__input-container">
+      <mat-label>Nombre de Usuario</mat-label>
+      <input type="text" id="userName" matInput />
+    </mat-form-field>
+    <mat-form-field class="register__input-container">
+      <mat-label>Nombre</mat-label>
+      <input type="text" matInput />
+    </mat-form-field>
+    <mat-form-field class="register__input-container">
+      <mat-label>Apellido</mat-label>
+      <input type="text" matInput />
+    </mat-form-field>
+
+    <mat-form-field class="register__input-container">
+      <mat-label>Correo Electrónico</mat-label>
+      <input type="email" matInput />
+    </mat-form-field>
+
+    <mat-form-field class="register__input-container">
+      <mat-label>N de Documento</mat-label>
+      <input type="number" matInput />
+    </mat-form-field>
+    <mat-form-field class="register__input-container">
+      <mat-label>Telefono</mat-label>
+      <input type="tel" matInput />
+    </mat-form-field>
+
+    <mat-form-field class="register__input-container">
+      <mat-label>Contraseña</mat-label>
+      <input type="password" matInput />
+    </mat-form-field>
+
+    <mat-form-field class="register__input-container">
+      <mat-label>Pais</mat-label>
+      <input type="text" matInput />
+    </mat-form-field>
+    <mat-form-field class="register__input-container">
+      <mat-label>Provincia</mat-label>
+      <input type="text" matInput />
+    </mat-form-field>
+    <mat-form-field class="register__input-container">
+      <mat-label>Codigo Postal</mat-label>
+      <input type="text" matInput />
+    </mat-form-field>
+
+    <div class="register__form-actions">
+      <p>Ya tenes cuenta?</p>
+      <a href="#">Iniciar Sesion</a>
+    </div>
+    <button mat-flat-button color="primary" class="login__submit">
+      Registarse
+    </button>
+  </form>
+</div>
