@@ -6,11 +6,11 @@
 
 ## 📖 Descripción del Proyecto
 
-Mercado Chamba es una aplicación web que busca dar solución a la busqueda de profecionales, tales como plomeros, gasistas, electricistas, etc. Y al mismo tiempo da el espacio para que dichos prestadores de servicio, promocionen sus trabajos.
+Mercado Chamba es una aplicación web que busca dar solución a la búsqueda de profesionales, tales como plomeros, gasistas, electricistas, etc. Y al mismo tiempo da el espacio para que dichos prestadores de servicio, promocionen sus trabajos. 
 
-El objetivo de este proyecto es generar un espacio que haga de nexo entre ambos usuarios: Clientes y Prestadores de servicios. Siendo asi nuestra aplicación el lugar ideal para encontrar profecionales calificados por los mismos usuarios, lo que aporta la confianza necesaria a nuestros clientes. 
+El objetivo de este proyecto es generar un espacio que haga de nexo entre ambos usuarios: Clientes y Prestadores de servicios. Siendo así nuestra aplicación el lugar ideal para encontrar profesionales calificados por los mismos usuarios, lo que aporta la confianza necesaria a nuestros clientes. Tanto clientes como los prestadores de servicio pueden registrarse en la plataforma, lo que les permite acceder a una amplia gama de servicios y oportunidades laborales.
 
-Entre las funcionalidades principales de la apliacación encontramos, un motor de buscada robusto, que permite encontrar lo que buscas en pocos segundos. A su vez cuenta con un filtro por zona, lo que permite buscar profecionales allegados al domicilio, un filtro por valoracion, permitiendo que se elija  a los profecionales mejor calificados y un filtro por categoria de servicio prestado.
+Entre las funcionalidades principales de la aplicación encontramos, un motor de buscada robusto, que permite encontrar lo que buscas en pocos segundos. A su vez cuenta con un filtro por zona, lo que permite buscar profesionales allegados al domicilio, un filtro por valoración, permitiendo que se elija a los profesionales mejor calificados y un filtro por categoría de servicio prestado. 
 
 ## 🖼️ Imágenes del Proyecto
 
