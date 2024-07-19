@@ -34,7 +34,7 @@ namespace backnc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Countries");
+                    b.ToTable("Countries", (string)null);
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.Neighborhood", b =>
@@ -55,7 +55,7 @@ namespace backnc.Migrations
 
                     b.HasIndex("ProvinceId");
 
-                    b.ToTable("Neighborhoods");
+                    b.ToTable("Neighborhoods", (string)null);
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.Province", b =>
@@ -76,7 +76,7 @@ namespace backnc.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("Provinces");
+                    b.ToTable("Provinces", (string)null);
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.Role", b =>
@@ -94,7 +94,7 @@ namespace backnc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.TodoTest", b =>
@@ -110,7 +110,7 @@ namespace backnc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TodoTests");
+                    b.ToTable("TodoTests", (string)null);
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.User", b =>
@@ -159,7 +159,7 @@ namespace backnc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.UserRole", b =>
@@ -174,7 +174,7 @@ namespace backnc.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UserRoles", (string)null);
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.Neighborhood", b =>

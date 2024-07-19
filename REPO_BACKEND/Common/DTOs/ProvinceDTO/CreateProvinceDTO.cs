@@ -2,8 +2,9 @@
 {
 	public class CreateProvinceDTO
 	{
-		public string name { get; set; }
-		public int CountryId { get; set; }
+		public string name { get; set; }	
+
+		public int countryId { get; set; }
 
 	}
 }

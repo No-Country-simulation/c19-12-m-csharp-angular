@@ -25,7 +25,7 @@ namespace backnc.Service
 			return await	context.Countries.FindAsync(id);
 		}
 
-		public async Task<Country> AddCountry(CreateCountryDTOs createCountryDTO)
+		public async Task<Country> AddCountry(CreateCountryDTO createCountryDTO)
 		{
 			var country = new Country
 			{
