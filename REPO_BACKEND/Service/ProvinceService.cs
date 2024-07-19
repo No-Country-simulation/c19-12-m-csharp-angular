@@ -1,83 +1,107 @@
-﻿//using backnc.Common.DTOs.ProvinceDTO;
-//using backnc.Data.Interface;
-//using backnc.Data.POCOEntities;
-//using backnc.Interfaces;
-//using Microsoft.EntityFrameworkCore;
+﻿using backnc.Common.DTOs;
+using backnc.Common.DTOs.NeighborhoodDTO;
+using backnc.Common.DTOs.ProvinceDTO;
+using backnc.Data.Interface;
+using backnc.Data.POCOEntities;
+using backnc.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-//namespace backnc.Service
-//{
-//	public class ProvinceService :  IProvinceSerivce
-//	{
-//		private readonly IAppDbContext _context;
+namespace backnc.Service
+{
+	public class ProvinceService : IProvinceSerivce
+	{
+		private readonly IAppDbContext context;
 
-//		public ProvinceService(IAppDbContext context)
-//		{
-//			_context = context;
-//		}
+		public ProvinceService(IAppDbContext context)
+		{
+			this.context = context;
+		}
 
-//		public async Task<IEnumerable<Province>> GetAllProvinces()
-//		{
-//			return await _context.Provinces.ToListAsync();
-//		}
+		//public async Task<IEnumerable<ProvinceDTO>> GetAllProvinces()
+		//{
+		//	return await context.Provinces
+		//		.Include(p => p.Neighborhoods)
+		//		.Select(p => new ProvinceDTO
+		//		{
+		//			Id = p.Id,
+		//			Name = p.Name,
+		//			Neighborhoods = p.Neighborhoods.Select(n => new NeighborhoodDTO
+		//			{
+		//				Id = n.Id,
+		//				Name = n.Name
+		//			}).ToList()
+		//		}).ToListAsync();
+		//}
 
-//		public async Task<Province> GetProvinceById(int id)
-//		{
-//			return await _context.Provinces.FindAsync(id);
-//		}
+		//public async Task<IEnumerable<ProvinceDTO>> GetProvincesByCountryId(int countryId)
+		//{
+		//	return await context.Provinces
+		//		.Where(p => p.CountryId == countryId)
+		//		.Include(p => p.Neighborhoods)
+		//		.Select(p => new ProvinceDTO
+		//		{
+		//			Id = p.Id,
+		//			Name = p.Name,
+		//			Neighborhoods = p.Neighborhoods.Select(n => new NeighborhoodDTO
+		//			{
+		//				Id = n.Id,
+		//				Name = n.Name
+		//			}).ToList()
+		//		}).ToListAsync();
+		//}
 
-//		public async Task<Province> AddProvince(CreateProvinceDTO createProvinceDTO)
-//		{
-//			var country = await _context.Countries.FindAsync(createProvinceDTO.countryId);
-//			if (country == null)
-//			{
-//				throw new Exception("CountryId inválido");
-//			}
+		//public async Task<ProvinceDTO> GetProvinceById(int id)
+		//{
+		//	var province = await context.Provinces
+		//		.Include(p => p.Neighborhoods)
+		//		.FirstOrDefaultAsync(p => p.Id == id);
 
-//			var province = new Province
-//			{
-//				Name = createProvinceDTO.name,
-//				CountryId = createProvinceDTO.countryId
-//			};
+		//	if (province == null) return null;
 
-//			_context.Provinces.Add(province);
-//			await _context.SaveChangesAsync();
-//			return province;
-//		}
+		//	return new ProvinceDTO
+		//	{
+		//		Id = province.Id,
+		//		Name = province.Name,
+		//		Neighborhoods = province.Neighborhoods.Select(n => new NeighborhoodDTO
+		//		{
+		//			Id = n.Id,
+		//			Name = n.Name
+		//		}).ToList()
+		//	};
+		//}
 
-//		public async Task<List<Province>> GetProvincesByCountryId(int countryId)
-//		{
-//			return await _context.Provinces
-//								 .Include(p => p.Neighborhoods)
-//								 .Where(p => p.CountryId == countryId)
-//								 .ToListAsync();
-//		}
+		public async Task<ProvinceDTO> AddProvince(CreateProvinceDTO createProvinceDTO)
+		{
+			var province = new Province
+			{
+				Name = createProvinceDTO.Name,
+				CountryId = createProvinceDTO.CountryId
+			};
+			context.Provinces.Add(province);
+			await context.SaveChangesAsync();
 
-		
+			return new ProvinceDTO { Id = province.Id, Name = province.Name };
+		}
 
-//		public async Task<Province> UpdateProvince(int id, EditProvinceDTO updateProvinceDTO)
-//		{
-//			var province = await _context.Provinces.FindAsync(id);
-//			if (province == null)
-//			{
-//				return null;
-//			}
+		public async Task<ProvinceDTO> UpdateProvince(int id, EditProvinceDTO editProvinceDTO)
+		{
+			var province = await context.Provinces.FindAsync(id);
+			if (province == null) return null;
 
-//			province.Name = updateProvinceDTO.name;
-//			await _context.SaveChangesAsync();
-//			return province;
-//		}
+			province.Name = editProvinceDTO.Name;
+			await context.SaveChangesAsync();
 
-//		public async Task<bool> DeleteProvince(int id)
-//		{
-//			var province = await _context.Provinces.FindAsync(id);
-//			if (province == null)
-//			{
-//				return false;
-//			}
+			return new ProvinceDTO { Id = province.Id, Name = province.Name };
+		}
 
-//			_context.Provinces.Remove(province);
-//			await _context.SaveChangesAsync();
-//			return true;
-//		}
-//	}
-//}
+		public async Task<bool> DeleteProvince(int id)
+		{
+			var province = await context.Provinces.FindAsync(id);
+			if (province == null) return false;
+
+			context.Provinces.Remove(province);
+			await context.SaveChangesAsync();
+			return true;
+		}
+	}
+}

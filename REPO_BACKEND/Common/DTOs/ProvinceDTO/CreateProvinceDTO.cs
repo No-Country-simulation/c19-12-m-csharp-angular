@@ -1,10 +1,9 @@
-﻿namespace backnc.Common.DTOs.ProvinceDTO
+﻿namespace backnc.Common.DTOs.ProvinceDTO;
+
+public class CreateProvinceDTO
 {
-	public class CreateProvinceDTO
-	{
-		public string name { get; set; }	
+	public string Name { get; set; }	
 
-		public int countryId { get; set; }
+	public int CountryId { get; set; }
 
-	}
 }

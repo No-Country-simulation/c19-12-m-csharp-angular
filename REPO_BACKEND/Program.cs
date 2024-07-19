@@ -28,10 +28,11 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(conn
 // Agregar otros servicios al contenedor
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICountryService, CountryService>();
-//builder.Services.AddScoped<IProvinceSerivce, ProvinceService>();
+builder.Services.AddScoped<IProvinceSerivce, ProvinceService>();
+builder.Services.AddScoped<INeighborhoodService, NeighborhoodService>();
 builder.Services.AddScoped<IAppDbContext, AppDbContext>();
 builder.Services.AddScoped<IUserValidationService, UserValidationService>();
-builder.Services.AddScoped<DataSeeder>(); // Asegúrate de registrar DataSeeder aquí
+builder.Services.AddScoped<DataSeeder>(); 
 
 
 builder.Services.AddSwaggerGen();
