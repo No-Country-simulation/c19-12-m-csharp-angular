@@ -7,7 +7,7 @@ namespace backnc.Interfaces
 	{
 		Task<IEnumerable<Country>> GetAllCountries();
 		Task<Country> GetCountryById(int id);
-		Task<Country> AddCountry(CreateCountryDTOs createCountryDTOs);
+		Task<Country> AddCountry(CreateCountryDTO createCountryDTO);
 		Task<Country> UpdateCountry(int id, EditCountryDTOs editCountryDTOs);
 		Task<bool> DeleteCountry(int id);
 	}

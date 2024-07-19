@@ -8,6 +8,7 @@ using DotNetEnv;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using backnc.Interfaces;
+using backnc.Data.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,8 +28,11 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(conn
 // Agregar otros servicios al contenedor
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICountryService, CountryService>();
-builder.Services.AddScoped<IProvinceSerivce, ProvinceService>();
+//builder.Services.AddScoped<IProvinceSerivce, ProvinceService>();
 builder.Services.AddScoped<IAppDbContext, AppDbContext>();
+builder.Services.AddScoped<IUserValidationService, UserValidationService>();
+builder.Services.AddScoped<DataSeeder>(); // Asegúrate de registrar DataSeeder aquí
+
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
@@ -67,6 +71,13 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+	var services = scope.ServiceProvider;
+	var seeder = services.GetRequiredService<DataSeeder>();
+	await seeder.SeedAsync();
 }
 
 

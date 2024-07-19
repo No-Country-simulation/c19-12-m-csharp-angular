@@ -1,7 +1,7 @@
 ﻿namespace backnc.Common.DTOs.CountryDTOs
 {
-	public class CreateCountryDTOs
-	{
+	public class CreateCountryDTO
+	{		
 		public string name { get; set; }
 	}
 }
