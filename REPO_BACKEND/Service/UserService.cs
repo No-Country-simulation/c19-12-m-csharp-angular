@@ -110,5 +110,50 @@ namespace backnc.Service
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-    }
+
+		public async Task<BaseResponse> ValidateToken(string token)
+		{
+			var tokenHandler = new JwtSecurityTokenHandler();
+			var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
+
+			try
+			{
+				tokenHandler.ValidateToken(token, new TokenValidationParameters
+				{
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = new SymmetricSecurityKey(key),
+					ValidateIssuer = true,
+					ValidIssuer = _configuration["Jwt:Issuer"],
+					ValidateAudience = true,
+					ValidAudience = _configuration["Jwt:Audience"],
+					ClockSkew = TimeSpan.Zero
+				}, out SecurityToken validatedToken);
+
+				var jwtToken = (JwtSecurityToken)validatedToken;
+				var userName = jwtToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+				var role = jwtToken.Claims.First(x => x.Type == ClaimTypes.Role).Value;
+
+				var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+
+				if (user == null)
+				{
+					return Response.ValidationError("Usuario no encontrado", new List<string> { "El token es válido pero el usuario no existe." });
+				}
+
+				var userResponse = new
+				{
+					UserName = user.UserName,
+					Role = role,
+					
+				};
+
+				return Response.Success(userResponse);
+			}
+			catch (Exception)
+			{
+				return Response.ValidationError("Token inválido", new List<string> { "El token es inválido o ha expirado." });
+			}
+		}
+
+	}
 }

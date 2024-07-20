@@ -8,5 +8,7 @@ namespace backnc.Interfaces
     {
         Task<BaseResponse> Authenticate(LoginUser userLogin);
         Task<BaseResponse> Register(RegisterUser userRegister);
+
+        Task<BaseResponse> ValidateToken(string token);
     }
 }
