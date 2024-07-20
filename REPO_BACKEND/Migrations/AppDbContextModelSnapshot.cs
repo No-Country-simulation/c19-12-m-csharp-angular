@@ -34,7 +34,7 @@ namespace backnc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Countries", (string)null);
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.Neighborhood", b =>
@@ -55,7 +55,7 @@ namespace backnc.Migrations
 
                     b.HasIndex("ProvinceId");
 
-                    b.ToTable("Neighborhoods", (string)null);
+                    b.ToTable("Neighborhoods");
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.Province", b =>
@@ -76,7 +76,7 @@ namespace backnc.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("Provinces", (string)null);
+                    b.ToTable("Provinces");
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.Role", b =>
@@ -94,7 +94,7 @@ namespace backnc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.TodoTest", b =>
@@ -110,7 +110,7 @@ namespace backnc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TodoTests", (string)null);
+                    b.ToTable("TodoTests");
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.User", b =>
@@ -121,18 +121,9 @@ namespace backnc.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CountryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NeighborhoodId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProvinceId")
-                        .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -159,7 +150,7 @@ namespace backnc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.UserRole", b =>
@@ -174,7 +165,7 @@ namespace backnc.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles", (string)null);
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.Neighborhood", b =>
