@@ -17,58 +17,58 @@ namespace backnc.Service
 			this.context = context;
 		}
 
-		//public async Task<IEnumerable<ProvinceDTO>> GetAllProvinces()
-		//{
-		//	return await context.Provinces
-		//		.Include(p => p.Neighborhoods)
-		//		.Select(p => new ProvinceDTO
-		//		{
-		//			Id = p.Id,
-		//			Name = p.Name,
-		//			Neighborhoods = p.Neighborhoods.Select(n => new NeighborhoodDTO
-		//			{
-		//				Id = n.Id,
-		//				Name = n.Name
-		//			}).ToList()
-		//		}).ToListAsync();
-		//}
+		public async Task<IEnumerable<ProvinceDTO>> GetAllProvinces()
+		{
+			return await context.Provinces
+				.Include(p => p.Neighborhoods)
+				.Select(p => new ProvinceDTO
+				{
+					Id = p.Id,
+					Name = p.Name,
+					Neighborhoods = p.Neighborhoods.Select(n => new Neighborhood
+					{
+						Id = n.Id,
+						Name = n.Name
+					}).ToList()
+				}).ToListAsync();
+		}
 
-		//public async Task<IEnumerable<ProvinceDTO>> GetProvincesByCountryId(int countryId)
-		//{
-		//	return await context.Provinces
-		//		.Where(p => p.CountryId == countryId)
-		//		.Include(p => p.Neighborhoods)
-		//		.Select(p => new ProvinceDTO
-		//		{
-		//			Id = p.Id,
-		//			Name = p.Name,
-		//			Neighborhoods = p.Neighborhoods.Select(n => new NeighborhoodDTO
-		//			{
-		//				Id = n.Id,
-		//				Name = n.Name
-		//			}).ToList()
-		//		}).ToListAsync();
-		//}
+		public async Task<IEnumerable<ProvinceDTO>> GetProvincesByCountryId(int countryId)
+		{
+			return await context.Provinces
+				.Where(p => p.CountryId == countryId)
+				.Include(p => p.Neighborhoods)
+				.Select(p => new ProvinceDTO
+				{
+					Id = p.Id,
+					Name = p.Name,
+					Neighborhoods = p.Neighborhoods.Select(n => new Neighborhood
+					{
+						Id = n.Id,
+						Name = n.Name
+					}).ToList()
+				}).ToListAsync();
+		}
 
-		//public async Task<ProvinceDTO> GetProvinceById(int id)
-		//{
-		//	var province = await context.Provinces
-		//		.Include(p => p.Neighborhoods)
-		//		.FirstOrDefaultAsync(p => p.Id == id);
+		public async Task<ProvinceDTO> GetProvinceById(int id)
+		{
+			var province = await context.Provinces
+				.Include(p => p.Neighborhoods)
+				.FirstOrDefaultAsync(p => p.Id == id);
 
-		//	if (province == null) return null;
+			if (province == null) return null;
 
-		//	return new ProvinceDTO
-		//	{
-		//		Id = province.Id,
-		//		Name = province.Name,
-		//		Neighborhoods = province.Neighborhoods.Select(n => new NeighborhoodDTO
-		//		{
-		//			Id = n.Id,
-		//			Name = n.Name
-		//		}).ToList()
-		//	};
-		//}
+			return new ProvinceDTO
+			{
+				Id = province.Id,
+				Name = province.Name,
+				Neighborhoods = province.Neighborhoods.Select(n => new Neighborhood
+				{
+					Id = n.Id,
+					Name = n.Name
+				}).ToList()
+			};
+		}
 
 		public async Task<ProvinceDTO> AddProvince(CreateProvinceDTO createProvinceDTO)
 		{

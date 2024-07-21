@@ -1,4 +1,5 @@
 ﻿using backnc.Common.DTOs;
+using backnc.Data.POCOEntities;
 
 namespace backnc.Common.DTOs.ProvinceDTO
 {
@@ -8,7 +9,7 @@ namespace backnc.Common.DTOs.ProvinceDTO
 
 		public string Name { get; set; }
 
-		//public List<NeighborhoodDTO> Neighborhoods { get; set; }
+		public List<Neighborhood> Neighborhoods { get; set; }
 
 
 	}
