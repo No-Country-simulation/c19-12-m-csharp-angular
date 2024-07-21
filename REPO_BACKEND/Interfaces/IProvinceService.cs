@@ -6,9 +6,9 @@ namespace backnc.Interfaces
 {
 	public interface IProvinceSerivce
 	{
-		//Task<IEnumerable<ProvinceDTO>> GetAllProvinces();
-		//Task<IEnumerable<ProvinceDTO>> GetProvincesByCountryId(int countryId);
-		//Task<ProvinceDTO> GetProvinceById(int id);
+		Task<IEnumerable<ProvinceDTO>> GetAllProvinces();
+		Task<IEnumerable<ProvinceDTO>> GetProvincesByCountryId(int countryId);
+		Task<ProvinceDTO> GetProvinceById(int id);
 		Task<ProvinceDTO> AddProvince(CreateProvinceDTO createProvinceDTO);
 		Task<ProvinceDTO> UpdateProvince(int id, EditProvinceDTO editProvinceDTO);
 		Task<bool> DeleteProvince(int id);
