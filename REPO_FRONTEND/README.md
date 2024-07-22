@@ -26,10 +26,24 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
-## Add env variables
+## Setup Guide
+
+### Download all dependencies
+Run command
+```
+npm install
+```
+
+### Add env variables
 Add `.env` archive and run command
 ```
 npm run envs
+```
+
+### Build frontend
+Run command
+```
+ng serve -o
 ```
 
 ## Architecture
@@ -66,9 +80,24 @@ npm run envs
         └── 📁pipes
         └── 📁services
 ```
-## Para descargar todas las dependencias
-`npm install`
 
-## Para levantar el frontend
-`ng serve -o`
-```
+## Theme
+
+### Color Pallete
+| Name     | Código Hexadecimal | Color                 |
+|-------------|--------------------|-----------------------------------|
+| surface     | `#ffffff`          | ![#ffffff](https://via.placeholder.com/20/ffffff/000000?text=+) |
+| primary     | `#15363a`          | ![#15363a](https://via.placeholder.com/20/15363a/000000?text=+) |
+| secondary   | `#db5e41`          | ![#db5e41](https://via.placeholder.com/20/db5e41/000000?text=+) |
+| tertiary    | `#2d394b`          | ![#2d394b](https://via.placeholder.com/20/2d394b/000000?text=+) |
+| error       | `#b00020`          | ![#b00020](https://via.placeholder.com/20/b00020/000000?text=+) |
+| accent      | `#db5e41`          | ![#db5e41](https://via.placeholder.com/20/db5e41/000000?text=+) |
+
+_To get more help on color roles go check out the [M3-Material Reference](https://m3.material.io/styles/color/roles) page._
+
+_To get more information on Angular material custom palette go to check out the [Angular material 17 - custom theme Reference](https://v17.material.angular.io/guide/theming) page._
+
+### Typography
+`fontFamily: 'Inter'`
+
+_To get more information on font go to check out the [Google Fonts - Inter Reference](https://fonts.google.com/specimen/Inter) page._
