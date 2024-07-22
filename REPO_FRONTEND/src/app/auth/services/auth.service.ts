@@ -13,7 +13,7 @@ import { AuthStatus } from '../models/auth-status.enum';
 import { LoginResponse } from '../models/login-response.interface';
 import { BaseResponse, Status } from '../../shared/models/response.interface';
 import { CheckStatusResponse } from '../models/check-status-response.interface';
-import { User } from '../models/user.interface';
+import { User, UserRegister } from '../models/user.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -42,9 +42,24 @@ export class AuthService {
         }
         return { message, data, status, isSuccess };
       }),
-      catchError((error) => throwError(() => error.error.message))
+      catchError((error) => throwError(() => error.error.data))
     );
   }
+
+  register(userRegister: UserRegister): Observable<BaseResponse> {
+    const url = `${this.API_URL}/api/Login/register`;
+    const body = userRegister;
+    console.log(body);
+    return this.http.post<BaseResponse>(url, body).pipe(
+      map(({ message, data, status, isSuccess }) => {
+        return { message, data, status, isSuccess };
+      }),
+      catchError((error) => {
+        return throwError(() => error.error.data);
+      })
+    );
+  }
+
 
   checkAuthStatus(): Observable<boolean> {
     const url = `${this.API_URL}/api/Login/validate-token`;
