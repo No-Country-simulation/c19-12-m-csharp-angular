@@ -20,8 +20,8 @@
       <div
         class="flex mx-3 sm:mx-4 justify-content-center align-items-center gap-1"
       >
-        @if(isAuthRoute) { <mat-icon>home</mat-icon> } @else {
-        <mat-icon>person_outline</mat-icon>}
+        @if(isAuthRoute) { <i class="fa-solid fa-house"></i> } @else {
+          <i class="fa-regular fa-circle-user"></i>}
 
         <span class="font-bold">{{ isAuthRoute ? "Home" : "Login" }}</span>
       </div>
