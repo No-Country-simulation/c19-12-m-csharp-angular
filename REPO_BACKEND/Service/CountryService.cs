@@ -22,10 +22,10 @@ namespace backnc.Service
 
 		public async Task<Country> GetCountryById(int id)
 		{
-			return await	context.Countries.FindAsync(id);
+			return await context.Countries.FindAsync(id);
 		}
 
-		public async Task<Country> AddCountry(CreateCountryDTOs createCountryDTO)
+		public async Task<Country> AddCountry(CreateCountryDTO createCountryDTO)
 		{
 			var country = new Country
 			{

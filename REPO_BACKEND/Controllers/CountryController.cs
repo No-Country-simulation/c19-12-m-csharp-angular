@@ -36,7 +36,7 @@ namespace backnc.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> AddCountry([FromBody] CreateCountryDTOs createCountryDTO)
+		public async Task<IActionResult> AddCountry([FromBody] CreateCountryDTO createCountryDTO)
 		{
 			var newCountry = await countryService.AddCountry(createCountryDTO);
 			return CreatedAtAction(nameof(GetCountryById), new { id = newCountry.Id }, newCountry);

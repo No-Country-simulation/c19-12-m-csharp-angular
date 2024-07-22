@@ -24,7 +24,7 @@ namespace backnc.Controllers
 			return Ok(countries);
 		}
 
-		[HttpGet("provinces/{countryId}")]
+		[HttpGet("provinces/{CountryId}")]
 		public async Task<IActionResult> GetProvinces(int countryId)
 		{
 			var provinces = await context.Provinces.Where(p => p.CountryId == countryId).ToListAsync();

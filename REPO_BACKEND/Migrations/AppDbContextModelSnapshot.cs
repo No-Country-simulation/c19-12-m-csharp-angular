@@ -121,18 +121,9 @@ namespace backnc.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CountryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NeighborhoodId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProvinceId")
-                        .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .IsRequired()

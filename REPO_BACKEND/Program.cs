@@ -8,6 +8,8 @@ using DotNetEnv;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using backnc.Interfaces;
+using backnc.Data.Seed;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,9 +30,42 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(conn
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICountryService, CountryService>();
 builder.Services.AddScoped<IProvinceSerivce, ProvinceService>();
+builder.Services.AddScoped<INeighborhoodService, NeighborhoodService>();
 builder.Services.AddScoped<IAppDbContext, AppDbContext>();
+builder.Services.AddScoped<IUserValidationService, UserValidationService>();
+builder.Services.AddScoped<DataSeeder>();
 
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(c =>
+{
+	c.SwaggerDoc("v1", new OpenApiInfo { Title = "MercadoChamba!", Version = "v1" });
+
+	// Configuración de seguridad JWT
+	c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+	{
+		In = ParameterLocation.Header,
+		Description = "Por favor, ingrese el token JWT en este formato: Bearer {token}",
+		Name = "Authorization",
+		Type = SecuritySchemeType.ApiKey,
+		Scheme = "Bearer"
+	});
+
+	c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+		{
+			new OpenApiSecurityScheme {
+				Reference = new OpenApiReference {
+					Type = ReferenceType.SecurityScheme,
+					Id = "Bearer"
+				}
+			},
+			new string[] {}
+		}
+	});
+	c.EnableAnnotations();
+
+});
+
+
 builder.Services.AddControllers();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
@@ -67,6 +102,13 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+	var services = scope.ServiceProvider;
+	var seeder = services.GetRequiredService<DataSeeder>();
+	await seeder.SeedAsync();
 }
 
 
