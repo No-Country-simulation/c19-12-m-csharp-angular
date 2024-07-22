@@ -1,0 +1,15 @@
+<div>
+  <mat-toolbar class="w-full justify-content-center flex-wrap">
+    <div
+      *ngFor="let i of containtCategories"
+      class="max-w-16rem justify-content-around"
+    >
+      <button class="flex align-items-center justify-content-center filterBox">
+        {{ i.name }}
+      </button>
+    </div>
+    <div class="w-12 justify-content-around">
+      <input type="text" /><button>Search</button>
+    </div>
+  </mat-toolbar>
+</div>

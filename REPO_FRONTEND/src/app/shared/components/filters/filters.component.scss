@@ -1,0 +1,13 @@
+.filterBox {
+  color: white;
+  background-color: #15363a;
+  font-size: 14px;
+  width: 121px;
+  height: 103px;
+  border-radius: 15px;
+  margin: 0 1em;
+
+  &:hover {
+    background-color: #db5e41;
+  }
+}
