@@ -2,13 +2,10 @@
 using backnc.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace backnc.Interfaces
+namespace backnc.Service
 {
     public interface IUserService
     {
         Task<BaseResponse> Authenticate(LoginUser userLogin);
-        Task<BaseResponse> Register(RegisterUser userRegister);
-
-        Task<BaseResponse> ValidateToken(string token);
     }
 }
