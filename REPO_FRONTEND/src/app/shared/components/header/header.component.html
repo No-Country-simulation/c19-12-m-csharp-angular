@@ -1,16 +1,18 @@
 <header>
-  <mat-toolbar class="flex">
-    <button
-      mat-icon-button
-      class="icon flex sm:hidden"
-      aria-label="Example icon-button with menu icon"
-    >
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span>My App</span>
+  <mat-toolbar
+    class="flex h-6rem sm:h-8rem px-2 sm:px-4 md:px-8 justify-content-center align-items-center wrap"
+    style="background-color: white"
+  >
+    <span
+      ><img
+        src="assets/logo.svg"
+        class="w-10rem sm:w-16rem"
+        alt="Logo Mercado Chamba"
+    /></span>
     <span class="flex-1"></span>
     <a
       mat-flat-button
+      class="border-round-2xl"
       color="primary"
       aria-label="Example icon-button with heart icon"
       (click)="isAuthRoute ? navigateTo('/') : navigateTo('auth')"
