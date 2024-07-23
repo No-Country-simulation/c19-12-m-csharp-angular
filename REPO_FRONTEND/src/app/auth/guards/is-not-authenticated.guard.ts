@@ -7,7 +7,6 @@ import { AuthStatus } from '../models/auth-status.enum';
 export const isNotAuthenticatedGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
-  console.log('authService.authStatus()', authService.authStatus());
   if (authService.authStatus() === AuthStatus.authenticated) {
     router.navigateByUrl('/dashboard');
     return false;

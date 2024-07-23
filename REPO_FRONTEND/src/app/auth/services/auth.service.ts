@@ -13,7 +13,7 @@ import { AuthStatus } from '../models/auth-status.enum';
 import { LoginResponse } from '../models/login-response.interface';
 import { BaseResponse, Status } from '../../shared/models/response.interface';
 import { CheckStatusResponse } from '../models/check-status-response.interface';
-import { User, UserRegister } from '../models/user.interface';
+import { User, UserLogin, UserRegister } from '../models/user.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +31,7 @@ export class AuthService {
   currentUser = computed(() => this._currentUser());
   authStatus = computed(() => this._authStatus());
 
-  login(userName: string, password: string): Observable<BaseResponse> {
+  login({userName, password}: UserLogin): Observable<BaseResponse> {
     const url = `${this.API_URL}/api/Login`;
     const body = { userName, password };
     return this.http.post<LoginResponse>(url, body).pipe(
@@ -42,14 +42,15 @@ export class AuthService {
         }
         return { message, data, status, isSuccess };
       }),
-      catchError((error) => throwError(() => error.error.data))
+      catchError((error) => {
+        return throwError(() => error.error.data);
+      })
     );
   }
 
   register(userRegister: UserRegister): Observable<BaseResponse> {
     const url = `${this.API_URL}/api/Login/register`;
     const body = userRegister;
-    console.log(body);
     return this.http.post<BaseResponse>(url, body).pipe(
       map(({ message, data, status, isSuccess }) => {
         return { message, data, status, isSuccess };
@@ -72,7 +73,6 @@ export class AuthService {
     return this.http.get<CheckStatusResponse>(url, { headers }).pipe(
       map(({ data, isSuccess }) => {
         if (!isSuccess) return false
-          console.log('Token válido');
           this._currentUser.set(data);
           this._authStatus.set(AuthStatus.authenticated);
           localStorage.setItem('token', token);
@@ -80,7 +80,6 @@ export class AuthService {
       }),
 
       catchError(() => {
-        console.log('Error al validar el token');
         this._authStatus.set(AuthStatus.notAuthenticated);
         return of(false);
       })

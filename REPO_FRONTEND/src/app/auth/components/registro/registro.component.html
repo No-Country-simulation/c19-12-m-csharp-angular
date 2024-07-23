@@ -1,6 +1,10 @@
 <div class="register-container">
-  <h2 class="register__title">Hola Bienvenido!!</h2>
-  <form [formGroup]="formRegister" (ngSubmit)="submit()" class="register__form">
+  <h2 class="register__title">Registro</h2>
+  <form
+    [formGroup]="formRegister"
+    (ngSubmit)="submit()"
+    class="register__form mb-4"
+  >
     <mat-form-field class="register__input-container">
       <mat-label for="userName">Nombre de Usuario</mat-label>
       <input type="text" id="userName" formControlName="userName" matInput />
@@ -21,16 +25,21 @@
 
     <mat-form-field class="register__input-container">
       <mat-label for="dni">N de Documento</mat-label>
-      <input type="number" formControlName="dni" matInput />
+      <input type="text" formControlName="dni" matInput />
     </mat-form-field>
     <mat-form-field class="register__input-container">
-      <mat-label for="phoneNumber">Telefono</mat-label>
+      <mat-label for="phoneNumber">Teléfono</mat-label>
       <input type="tel" formControlName="phoneNumber" matInput />
     </mat-form-field>
 
     <mat-form-field class="register__input-container">
       <mat-label for="password">Contraseña</mat-label>
       <input type="password" formControlName="password" matInput />
+    </mat-form-field>
+
+    <mat-form-field class="register__input-container">
+      <mat-label for="address">Dirección</mat-label>
+      <input type="text" formControlName="address" matInput />
     </mat-form-field>
 
     <!-- <mat-form-field class="register__input-container">
@@ -47,14 +56,26 @@
     </mat-form-field> -->
 
     <div class="register__form-actions">
-      <p>Ya tenes cuenta?</p>
-      <a href="#">Iniciar Sesion</a>
+      <span
+        >Ya tenes cuenta?
+        <a mat-button routerLink="/auth/login">Iniciar Sesión</a></span
+      >
     </div>
+
     <button mat-flat-button color="primary" type="submit" class="login__submit">
-      Registarse
+      Registrarse
     </button>
   </form>
 
-  <pre>{{ formRegister.value.userName | json }}</pre>
-  <pre>{{ formRegister.valid | json }}</pre>
+  @if(errors.length> 0){
+  <mat-list>
+    <mat-list-item
+      class="text-left"
+      *ngFor="let error of errors; let i = index"
+      color="primary"
+    >
+      <span color="primary">{{ error }}</span>
+    </mat-list-item>
+  </mat-list>
+  }
 </div>
