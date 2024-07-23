@@ -14,8 +14,14 @@ Entre las funcionalidades principales de la aplicación encontramos, un motor de
 
 ## 🖼️ Imágenes del Proyecto
 
-![Vista Principal](ruta/a/la/imagen/vista_principal.png)
-![Vista Secundaria](ruta/a/la/imagen/vista_secundaria.png)
+![Vista Principal]
+<br>
+<img width="400" height= "200" src="https://github.com/No-Country-simulation/c19-12-m-csharp-angular/blob/main/ASSETS/imagenWebApp.png" alt="vista principal Mercado Chamba" />
+<br>
+![Vista Secundaria]
+<br>
+<img width="400" height= "200" src="https://github.com/No-Country-simulation/c19-12-m-csharp-angular/blob/main/ASSETS/imagenWebApp2.png" alt="vista segundaria Mercado Chamba" />
+<br>
 
 ## 👥 Miembros del Equipo
 
