@@ -6,6 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserLogin } from '../../models/user.interface';
 import { SnackbarService } from '../../../shared/services/snackbar.service';
+import { passwordValidator } from '../../models/password.validators';
 
 @Component({
   selector: 'auth-login',
@@ -22,8 +23,8 @@ export class LoginComponent implements OnInit {
   private snackbarService = inject(SnackbarService);
 
   public formLogin = this.fb.group({
-    userName: ['', [Validators.required, Validators.minLength(4)]],
-    password: ['', [Validators.required]],
+    userName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+    password: ['', [Validators.required, passwordValidator()]],
   });
 
   constructor() {}
@@ -37,14 +38,16 @@ export class LoginComponent implements OnInit {
   }
 
   submit() {
-    const userLogin: UserLogin = this.formLogin.value;
-    this.authService.login(userLogin).subscribe({
-      next: (response) => {
-        if (response.isSuccess) this.router.navigateByUrl('/dashboard');
-        if (!response.isSuccess)
-          this.snackbarService.openErrorSnackBar(response.message!);
-      },
-      error: (error) => console.log('Login error', error),
-    });
+    if (this.formLogin.valid) {
+      const userLogin: UserLogin = this.formLogin.value;
+      this.authService.login(userLogin).subscribe({
+        next: (response) => {
+          if (response.isSuccess) this.router.navigateByUrl('/dashboard');
+          if (!response.isSuccess)
+            this.snackbarService.openErrorSnackBar(response.message!);
+        },
+        error: (error) => console.log('Login error', error),
+      });
+    }
   }
 }
