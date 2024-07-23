@@ -14,6 +14,13 @@
 		//public int CountryId { get; set; }
 		//public int ProvinceId { get; set; }
 		//public int NeighborhoodId { get; set; }
+
+		public Profile Profile { get; set; }
+
+		// Relación uno a muchos con Trabajos
+		public ICollection<Job> Job { get; set; }
+
+		//ROLES
 		public ICollection<UserRole> UserRoles { get; set; }
     }
 }

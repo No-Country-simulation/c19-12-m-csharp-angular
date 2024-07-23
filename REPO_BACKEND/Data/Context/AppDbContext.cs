@@ -20,5 +20,7 @@ namespace backnc.Data.Context
 		public DbSet<Country> Countries { get; set; }
 		public DbSet<Province> Provinces { get; set; }
 		public DbSet<Neighborhood> Neighborhoods { get; set; }
+        public DbSet<Job> Jobs { get; set; }
+        public DbSet<Profile> Profiles { get; set; }
 	}
 }

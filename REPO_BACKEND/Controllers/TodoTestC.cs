@@ -30,7 +30,6 @@ namespace backnc.Controllers
             return Ok(_context.TodoTests.ToList());
         }
 
-
         [HttpGet("getall-todo-autenticacion-requerida")]
         [Authorize]
         public IActionResult getalltodo2()
@@ -38,7 +37,7 @@ namespace backnc.Controllers
             return Ok(_context.TodoTests.ToList());
         }
 
-        [Authorize(Roles = ("Test"))]
+        [Authorize(Roles = ("Cliente"))]
         [HttpGet("getall-todo-autenticacion-rol-test")]
         public IActionResult getalltodo3()
         {
