@@ -1,14 +1,24 @@
 <mat-drawer-container class="flex" autosize>
    <!--  TODO: SIDEBAR -->
-    <mat-drawer #drawer class="flex h-screen fixed w-screen sm:w-3" mode="side">
-      <h1>Sidebar</h1>
+    <mat-drawer #drawer class="flex h-screen fixed w-screen sm:w-3" mode="side" style="background-color: #15363a; color: white; padding: 1rem;">
+      <h1 color="white">Sidebar</h1>
      
-      <button (click)="drawer.toggle()" mat-raised-button>
-        Toggle sidenav
-      </button>
+      <mat-list>
+        <mat-list-item>
+          <button (click)="drawer.toggle()" mat-raised-button>
+            Toggle sidenav
+          </button>
+        </mat-list-item>
+        <mat-list-item>
+          <button (click)="handleLogout()" mat-raised-button color="warn">
+            Cerrar sesión
+          </button>
+        </mat-list-item>
+      </mat-list>
     </mat-drawer>
   
     <div class="h-full p-6">
+      <h1>Bienvenido {{user?.userName}}</h1>
       <button type="button" mat-button (click)="drawer.toggle()">
         Toggle sidenav
       </button>
