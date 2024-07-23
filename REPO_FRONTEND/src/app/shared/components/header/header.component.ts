@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MaterialModule } from '../../../material/material.module';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../../auth/services/auth.service';
+import { User } from '../../../auth/models/user.interface';
 
 @Component({
   selector: 'shared-header',
@@ -11,6 +13,8 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 })
 export class HeaderComponent {
   public isAuthRoute: boolean = false;
+  private authService = inject(AuthService);
+  public user : User | null = null;
 
   constructor(private router : Router){
     this.router.events.subscribe(event => {
@@ -18,8 +22,15 @@ export class HeaderComponent {
         this.isAuthRoute = event.urlAfterRedirects.includes('auth');
       }
     });
+    this.authService.checkAuthStatus().subscribe(
+      (status) => {
+        if(status){
+          this.user =  this.authService.currentUser();
+        }
+      }
+    );
   }
-  
+
   navigateTo(route : string){
     this.router.navigate([route]);
   }

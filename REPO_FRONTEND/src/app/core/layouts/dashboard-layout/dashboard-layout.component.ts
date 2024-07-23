@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './dashboard-layout.component.html',
   styleUrl: './dashboard-layout.component.scss',
 })
-export class DashboardLayoutComponent implements OnInit{
+export class DashboardLayoutComponent {
   showFiller = false;
 
   private authService = inject(AuthService);
@@ -20,14 +20,14 @@ export class DashboardLayoutComponent implements OnInit{
   public user: User | null = null;
 
   constructor() {
-    
+    this.authService.checkAuthStatus().subscribe(
+      (status) => {
+        if(status){
+          this.user =  this.authService.currentUser();
+        }
+      }
+    );
   }
-
-  ngOnInit(): void {
-    this.user = this.authService.currentUser();
-  }
-
-  
 
   handleLogout(): void {
     this.authService.logout();
