@@ -1,3 +1,18 @@
-<div class="w-full h-screen">
+<div class="w-full">
   <app-filters></app-filters>
+  <div
+    class="containerS mx-auto flex flex-row flex-wrap"
+    *ngFor="let i of profesionales"
+  >
+    <div class="card">
+      <img src="{{ i.picUrl }}" alt="" />
+
+      <h1>{{ i.fullName }}</h1>
+      <span><mat-icon>service_toolbox</mat-icon> {{ i.category }}</span>
+      <span>Reseñas {{ i.cantReviews }}</span>
+      <span>
+        {{ i.ranking }}
+      </span>
+    </div>
+  </div>
 </div>

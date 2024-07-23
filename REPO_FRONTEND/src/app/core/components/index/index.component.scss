@@ -1,0 +1,27 @@
+.containerS {
+  max-width: 1200px;
+  height: fit-content;
+  background-color: gray;
+}
+
+.card {
+  width: 274px;
+  height: 371px;
+  border-radius: 15px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    border: 1px solid orange;
+  }
+
+  h1 {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  span {
+    font-size: 14px;
+  }
+}

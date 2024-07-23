@@ -12,7 +12,8 @@
 
 .applyFiltersButton {
   background-color: #15363a;
-  color: white;
+  color: white !important;
+  height: 40px;
   padding: 2em;
   margin-left: 0.75em;
 }
