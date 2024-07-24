@@ -1,18 +1,19 @@
-<div class="w-full">
+<div>
   <app-filters></app-filters>
-  <div
-    class="containerS mx-auto flex flex-row flex-wrap"
-    *ngFor="let i of profesionales"
-  >
-    <div class="card">
-      <img src="{{ i.picUrl }}" alt="" />
+  <div class="bigContainer">
+    <div class="containerS mx-auto" *ngFor="let i of profesionales">
+      <div class="card">
+        <img src="{{ i.picUrl }}" alt="" />
 
-      <h1>{{ i.fullName }}</h1>
-      <span><mat-icon>service_toolbox</mat-icon> {{ i.category }}</span>
-      <span>Reseñas {{ i.cantReviews }}</span>
-      <span>
-        {{ i.ranking }}
-      </span>
+        <h1>{{ i.fullName }}</h1>
+        <span
+          ><i class="fa-solid fa-screwdriver-wrench"></i> {{ i.category }}</span
+        >
+        <span>Reseñas {{ i.cantReviews }}</span>
+        <span>
+          {{ i.ranking }}
+        </span>
+      </div>
     </div>
   </div>
 </div>

@@ -1,7 +1,16 @@
-.containerS {
+.bigContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+  gap: 2rem;
   max-width: 1200px;
+  background-color: lightgreen;
+}
+
+.containerS {
   height: fit-content;
-  background-color: gray;
+  display: flex;
+  flex-direction: row;
 }
 
 .card {
@@ -9,11 +18,19 @@
   height: 371px;
   border-radius: 15px;
   border: 1px solid black;
-  display: flex;
+  display: grid;
   flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 
   &:hover {
     border: 1px solid orange;
+  }
+
+  img {
+    width: 234px;
+    height: 146px;
+    border-radius: 10px;
   }
 
   h1 {
