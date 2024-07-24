@@ -1,6 +1,6 @@
 ﻿namespace backnc.Interfaces
 {
-	public class IJobsService
+	public interface IJobsService
 	{
 	}
 }
