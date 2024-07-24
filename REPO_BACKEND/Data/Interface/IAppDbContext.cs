@@ -15,8 +15,6 @@ namespace backnc.Data.Interface
 		DbSet<Job> Jobs { get; set; }
 		DbSet<Profile> Profiles { get; set; }
 
-
-
 		Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
