@@ -26,10 +26,12 @@
       <mat-error *ngIf="formRegister.controls['firstName'].errors?.['required']"
         >Nombre es requerido.</mat-error
       >
-      <mat-error *ngIf="formRegister.controls['firstName'].errors?.['minlength']"
+      <mat-error
+        *ngIf="formRegister.controls['firstName'].errors?.['minlength']"
         >Nombre debe tener al menos 1 caracter.</mat-error
       >
-      <mat-error *ngIf="formRegister.controls['firstName'].errors?.['maxlength']"
+      <mat-error
+        *ngIf="formRegister.controls['firstName'].errors?.['maxlength']"
         >Nombre no puede exceder 50 caracteres.</mat-error
       >
     </mat-form-field>
@@ -82,13 +84,16 @@
     <mat-form-field class="register__input-container">
       <mat-label for="phoneNumber">Teléfono</mat-label>
       <input type="tel" formControlName="phoneNumber" matInput />
-      <mat-error *ngIf="formRegister.controls['phoneNumber'].errors?.['required']"
+      <mat-error
+        *ngIf="formRegister.controls['phoneNumber'].errors?.['required']"
         >Teléfono es requerido.</mat-error
       >
-      <mat-error *ngIf="formRegister.controls['phoneNumber'].errors?.['minlength']"
+      <mat-error
+        *ngIf="formRegister.controls['phoneNumber'].errors?.['minlength']"
         >Teléfono debe tener al menos 7 caracteres.</mat-error
       >
-      <mat-error *ngIf="formRegister.controls['phoneNumber'].errors?.['maxlength']"
+      <mat-error
+        *ngIf="formRegister.controls['phoneNumber'].errors?.['maxlength']"
         >Teléfono no puede exceder 15 caracteres.</mat-error
       >
     </mat-form-field>
@@ -124,9 +129,12 @@
           formRegister.controls["password"].errors?.['noSpecialCharacter']
         }}</mat-error
       >
-      <mat-error *ngIf="formRegister.controls['password'].errors?.['minLength8']">{{
+      <mat-error
+        *ngIf="formRegister.controls['password'].errors?.['minLength8']"
+        >{{
         formRegister.controls["password"].errors?.['minLength8']
-      }}</mat-error>
+        }}</mat-error
+      >
     </mat-form-field>
 
     <mat-form-field class="register__input-container">
@@ -143,11 +151,9 @@
       >
     </mat-form-field>
 
-    <div class="register__form-actions">
-      <span
-        >¿Ya tienes cuenta?
-        <a mat-button routerLink="/auth/login">Iniciar Sesión</a></span
-      >
+    <div class="register__form-actions mt-2 mb-2">
+      <span class="mr-1">¿Ya tienes cuenta?</span
+      ><a type="button" mat-button routerLink="/auth/login">Iniciar Sesión</a>
     </div>
 
     <button
