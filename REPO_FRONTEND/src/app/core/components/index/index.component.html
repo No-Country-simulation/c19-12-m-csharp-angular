@@ -1,8 +1,28 @@
-<div class="main">
-  <div class="second p-4">
-    <label><span>Mercado</span> <span>Chamba</span></label>
-    <h1 class="text-5xl sm:text-7xl line-height-2 sm:line-height-4">Encuentra el profesional indicado para el trabajo especifico</h1>
-    <p>+1000 profesionales de oficios a 1 click de distancia</p>
-    <button mat-button>Buscar lo que necesitas aquí</button>
+<div>
+  <app-filters></app-filters>
+  <div class="bigContainer">
+    <div class="containerS mx-auto" *ngFor="let i of profesionales">
+      <div class="card">
+        <img src="{{ i.picUrl }}" alt="" />
+
+        <h1>{{ i.fullName }}</h1>
+        <span
+          ><i class="fa-solid fa-screwdriver-wrench"></i> {{ i.category }}</span
+        >
+        <span
+          ><i class="fa-regular fa-comments"></i> Reseñas
+          {{ i.cantReviews }}</span
+        >
+        <span>
+          <i class="fa-solid fa-thumbs-up"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-regular fa-star"></i>
+          <i class="fa-regular fa-star"></i>
+          <!-- <star-rating [rating]="2" [disabled]="true"></star-rating> -->
+        </span>
+      </div>
+    </div>
   </div>
 </div>

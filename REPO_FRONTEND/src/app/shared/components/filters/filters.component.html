@@ -1,0 +1,51 @@
+<div>
+  <div class="md:hidden w-full flex justify-content-center">
+    <mat-form-field class="w-10">
+      <mat-label>Filter by</mat-label>
+      <mat-select>
+        @for (cat of containtCategories; track cat) {
+        <mat-option [value]="cat.id">{{ cat.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <!-- aparece el select pero no mapea las categorias idk why -->
+  <mat-toolbar
+    class="hidden md:flex w-full h-fit justify-content-center flex-wrap"
+  >
+    <div
+      *ngFor="let i of containtCategories"
+      class="max-w-16rem justify-content-around"
+    >
+      <button
+        class="h-3rem lg:h-6rem lg:m-1 flex flex-col align-items-center justify-content-center filterBox"
+      >
+        <mat-icon>{{ i.icon }}</mat-icon>
+
+        <p>{{ i.name }}</p>
+      </button>
+    </div>
+  </mat-toolbar>
+  <div class="w-full flex justify-content-center primeFlexSucks">
+    <form class="w-10 flex">
+      <mat-form-field class="md:flex-grow-1">
+        <span matPrefix> </span>
+        <input
+          type="tel"
+          matInput
+          placeholder="Search"
+          name="search"
+          [(ngModel)]="search"
+          class="w-full"
+        />
+        <button matSuffix mat-button>
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+      <br />
+      <button class="md:flex-none applyFiltersButton" mat-button>
+        <mat-icon>instant_mix</mat-icon>Aplicar Filtros
+      </button>
+    </form>
+  </div>
+</div>
