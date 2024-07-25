@@ -51,7 +51,10 @@ namespace backnc.Controllers
 		{
 			if (!Request.Headers.ContainsKey("Authorization"))
 			{
-				return BadRequest(new BaseResponse { IsSuccess = false, status = "error", message = "El encabezado de autorización no está presente." });
+				return BadRequest(new BaseResponse { 
+					IsSuccess = false, 
+					status = "error", 
+					message = "El encabezado de autorización no está presente." });
 			}
 
 			var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
