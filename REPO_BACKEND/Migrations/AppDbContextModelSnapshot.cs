@@ -55,13 +55,18 @@ namespace backnc.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ProfileId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProfileId");
 
                     b.HasIndex("UserId");
 
@@ -232,13 +237,17 @@ namespace backnc.Migrations
 
             modelBuilder.Entity("backnc.Data.POCOEntities.Job", b =>
                 {
-                    b.HasOne("backnc.Data.POCOEntities.User", "User")
-                        .WithMany("Job")
-                        .HasForeignKey("UserId")
+                    b.HasOne("backnc.Data.POCOEntities.Profile", "Profile")
+                        .WithMany()
+                        .HasForeignKey("ProfileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.HasOne("backnc.Data.POCOEntities.User", null)
+                        .WithMany("Job")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Profile");
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.Neighborhood", b =>

@@ -22,5 +22,8 @@ namespace backnc.Data.Context
 		public DbSet<Neighborhood> Neighborhoods { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<Profile> Profiles { get; set; }
+		
+
+
 	}
 }

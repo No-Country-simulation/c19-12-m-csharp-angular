@@ -1,4 +1,7 @@
-﻿using backnc.Data.Interface;
+﻿using backnc.Common.DTOs;
+using backnc.Common.DTOs.NeighborhoodDTO;
+using backnc.Common.DTOs.ProvinceDTO;
+using backnc.Data.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,24 +21,42 @@ namespace backnc.Controllers
         }
 
 		[HttpGet("countries")]
-		public async Task<IActionResult> GetCountries()
+		public IActionResult GetCountries()
 		{
-			var countries = await context.Countries.ToListAsync();
+			var countries = context.Countries.Select(c => new CountryDTO
+			{
+				id = c.Id,
+				name = c.Name,
+				Provinces = c.Provinces.ToList()
+			}).ToList();
 			return Ok(countries);
 		}
 
-		[HttpGet("provinces/{CountryId}")]
-		public async Task<IActionResult> GetProvinces(int countryId)
+		[HttpGet("countries/{countryId}/provinces")]
+		public IActionResult GetProvinces(int countryId)
 		{
-			var provinces = await context.Provinces.Where(p => p.CountryId == countryId).ToListAsync();
+			var provinces = context.Provinces
+									.Where(p => p.CountryId == countryId)
+									.Select(p => new CreateProvinceDTO
+									{
+										Name = p.Name,
+										CountryId = p.CountryId
+									}).ToList();
 			return Ok(provinces);
 		}
 
-		[HttpGet("neighborhoods/{provinceId}")]
-		public async Task<IActionResult> GetNeighborhoods(int provinceId)
+		[HttpGet("provinces/{provinceId}/neighborhoods")]
+		public IActionResult GetNeighborhoods(int provinceId)
 		{
-			var neighborhoods = await context.Neighborhoods.Where(n => n.ProvinceId == provinceId).ToListAsync();
+			var neighborhoods = context.Neighborhoods
+										.Where(n => n.ProvinceId == provinceId)
+										.Select(n => new CreateNeighborhoodDTO
+										{
+											Name = n.Name,
+											ProvinceId = n.ProvinceId
+										}).ToList();
 			return Ok(neighborhoods);
 		}
+
 	}
 }
