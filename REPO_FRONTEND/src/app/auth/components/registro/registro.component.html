@@ -63,7 +63,7 @@
     </mat-form-field>
 
     <mat-form-field class="register__input-container">
-      <mat-label for="dni">N de Documento</mat-label>
+      <mat-label for="dni">Nro. de Documento</mat-label>
       <input type="text" formControlName="dni" matInput />
       <mat-error *ngIf="formRegister.controls['dni'].errors?.['required']"
         >N de Documento es requerido.</mat-error
@@ -74,6 +74,9 @@
       <mat-error *ngIf="formRegister.controls['dni'].errors?.['maxlength']"
         >N de Documento no puede exceder 15 caracteres.</mat-error
       >
+      <mat-error *ngIf="formRegister.controls['dni'].errors?.['numeric']">
+        Nro. de Documento debe contener solo números.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field class="register__input-container">
