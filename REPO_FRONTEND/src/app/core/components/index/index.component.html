@@ -9,9 +9,18 @@
         <span
           ><i class="fa-solid fa-screwdriver-wrench"></i> {{ i.category }}</span
         >
-        <span>Reseñas {{ i.cantReviews }}</span>
+        <span
+          ><i class="fa-regular fa-comments"></i> Reseñas
+          {{ i.cantReviews }}</span
+        >
         <span>
-          {{ i.ranking }}
+          <i class="fa-solid fa-thumbs-up"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-regular fa-star"></i>
+          <i class="fa-regular fa-star"></i>
+          <!-- <star-rating [rating]="2" [disabled]="true"></star-rating> -->
         </span>
       </div>
     </div>

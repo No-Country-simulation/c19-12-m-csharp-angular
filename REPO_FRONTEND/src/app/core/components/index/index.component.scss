@@ -4,7 +4,7 @@
   margin: auto;
   gap: 2rem;
   max-width: 1200px;
-  background-color: lightgreen;
+  margin-bottom: 4rem;
 }
 
 .containerS {
@@ -24,7 +24,7 @@
   align-items: center;
 
   &:hover {
-    border: 1px solid orange;
+    border: 1px solid #db5e41;
   }
 
   img {
@@ -34,11 +34,18 @@
   }
 
   h1 {
+    margin: 0 20px;
     font-size: 18px;
     font-weight: bold;
   }
 
+  i {
+    margin: 0 5px;
+    color: #db5e41;
+  }
+
   span {
     font-size: 14px;
+    margin: 0 20px;
   }
 }

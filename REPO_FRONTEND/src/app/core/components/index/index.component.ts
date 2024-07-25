@@ -4,6 +4,7 @@ import { FooterComponent } from '../../../shared/components/footer/footer.compon
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { MaterialModule } from '../../../material/material.module';
 import { FiltersComponent } from '../../../shared/components/filters/filters.component';
+// import { StarRatingModule } from 'angular-star-rating';
 
 interface propCards {
   id_user: number;
@@ -106,6 +107,7 @@ const listCards: propCards[] = [
     MaterialModule,
     FiltersComponent,
     NgFor,
+    // StarRatingModule,
   ],
   templateUrl: './index.component.html',
   styleUrl: './index.component.scss',
