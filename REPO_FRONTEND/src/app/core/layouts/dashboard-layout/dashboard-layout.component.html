@@ -1,29 +1,53 @@
 <mat-drawer-container class="flex" autosize>
-   <!--  TODO: SIDEBAR -->
-    <mat-drawer #drawer class="flex h-screen fixed w-screen sm:w-3" mode="side" style="background-color: #15363a; color: white; padding: 1rem;">
-      <h1 color="white">Sidebar</h1>
-     
-      <mat-list>
-        <mat-list-item>
-          <button (click)="drawer.toggle()" mat-raised-button>
-            Toggle sidenav
-          </button>
-        </mat-list-item>
-        <mat-list-item>
-          <button (click)="handleLogout()" mat-raised-button color="warn">
-            Cerrar sesión
-          </button>
-        </mat-list-item>
-      </mat-list>
-    </mat-drawer>
-  
-    <div class="h-full p-6">
-      <h1>Bienvenido {{user?.userName}}</h1>
-      <button type="button" mat-button (click)="drawer.toggle()">
-        Toggle sidenav
-      </button>
-    </div>
+  <!--  TODO: SIDEBAR -->
+  <mat-drawer
+    #drawer
+    class="flex h-screen fixed w-screen sm:w-3"
+    mode="side"
+    style="background-color: #15363a; color: white; padding: 0.2rem;"
+  >
+   <div class="flex justify-content-start align-items-center mt-1">
+    <button (click)="toggleDrawer(drawer)" mat-icon-button class="text-left">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span
+        ><img
+          src="assets/logo2.svg"
+          class="w-full sm:w-full"
+          alt="Logo Mercado Chamba"
+      /></span>
+   </div>
 
-    <router-outlet/>
-  
-  </mat-drawer-container>
+    <mat-list>
+      <mat-list-item>
+        <a routerLink="/dashboard" mat-raised-button color="primary" class="w-full">
+          Dashboard
+        </a>
+      </mat-list-item>
+      <mat-divider class="my-2"></mat-divider>
+      <mat-list-item>
+        <button (click)="handleLogout()" mat-button color="warn" class="w-fit">
+          Cerrar sesión
+        </button>
+      </mat-list-item>
+    </mat-list>
+  </mat-drawer>
+
+  <div class="w-screen">
+    <div [ngClass]="showFiller ? 'fixed w-9' : 'w-12'">
+      <mat-toolbar>
+        <button mat-button (click)="toggleDrawer(drawer)">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span class="flex-1"></span>
+        <span aria-label="Role" class="text-sm" style="color: gray;">
+          {{ user?.role | titlecase}}
+        </span>
+        <button mat-button aria-label="Username" class="ml-2">
+          {{ user?.userName | titlecase }}
+        </button>
+      </mat-toolbar>
+      <router-outlet />
+    </div>
+  </div>
+</mat-drawer-container>

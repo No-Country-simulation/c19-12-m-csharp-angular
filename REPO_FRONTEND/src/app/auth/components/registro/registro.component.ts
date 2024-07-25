@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth.service';
 import { UserRegister } from '../../models/user.interface';
 import { SnackbarService } from '../../../shared/services/snackbar.service';
 import { passwordValidator } from '../../models/password.validators';
+import { numericValidator } from '../../models/ndocumento.validators';
 
 @Component({
   selector: 'auth-registro',
@@ -52,7 +53,7 @@ export class RegistroComponent implements OnInit {
     ],
     dni: [
       '',
-      [Validators.required, Validators.minLength(7), Validators.maxLength(15)],
+      [Validators.required, Validators.minLength(7), Validators.maxLength(15), numericValidator()],
     ],
     phoneNumber: [
       '',
