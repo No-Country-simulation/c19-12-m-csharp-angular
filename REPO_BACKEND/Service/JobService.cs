@@ -18,16 +18,27 @@ namespace backnc.Service
 
 		public async Task<IEnumerable<Job>> GetJobsByProfileId(int profileId)
 		{
-			return await context.Jobs.Where(j => j.ProfileId == profileId).ToListAsync();
+			return await context.Jobs
+				.Where(j => j.ProfileId == profileId)
+				.Include(j => j.Profile) 
+				.ToListAsync();
 		}
+
 		public async Task<Job> GetJobByIdAsync(int jobId)
 		{
 			return await context.Jobs.FindAsync(jobId);
 		}
+
 		public async Task<IEnumerable<Job>> GetAllJobs()
 		{
 			return await context.Jobs.ToListAsync();
 		}
+
+		public async Task<IEnumerable<Job>> GetJobsByUserId(int userId)
+		{
+			return await context.Jobs.Where(j => j.Profile.UserId == userId).ToListAsync();
+		}
+
 		public async Task DeleteJobAsync(int jobId)
 		{
 			var job = await context.Jobs.FindAsync(jobId);

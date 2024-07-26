@@ -100,41 +100,62 @@ public class JobController : ControllerBase
 		}
 	}
 
-	[HttpGet("{profileId}")]
-	public async Task<IActionResult> GetJobsByProfileId(int profileId)
-	{
-		var jobs = await _jobService.GetJobsByProfileId(profileId);
+	//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-		if (jobs == null)
-		{
-			return NotFound(new BaseResponse("No se encontraron trabajos."));
-		}
-
-		return Ok(new BaseResponse(jobs));
-	}
-	
 	[HttpGet]
 	public async Task<IActionResult> GetAllJobs()
 	{
-		var jobs = await _jobService.GetAllJobs();
-		if (jobs == null || !jobs.Any())
+		try
 		{
-			return NotFound(new BaseResponse("No se encontraron trabajos."));
-		}
+			var jobs = await _jobService.GetAllJobs();
+			if (jobs == null || !jobs.Any())
+			{
+				return NotFound(new BaseResponse("No se encontraron trabajos."));
+			}
 
-		return Ok(new BaseResponse(jobs));
+			return Ok(new BaseResponse(jobs));
+		}
+		catch (Exception ex)
+		{
+			return StatusCode(500, new BaseResponse($"Error interno del servidor: {ex.Message}"));
+		}
 	}
 
 	[HttpGet("{jobId}")]
 	public async Task<IActionResult> GetJobById(int jobId)
 	{
-		var job = await _jobService.GetJobByIdAsync(jobId);
-
-		if (job == null)
+		try
 		{
-			return NotFound(new BaseResponse("Trabajo no encontrado."));
-		}
+			var job = await _jobService.GetJobByIdAsync(jobId);
+			if (job == null)
+			{
+				return NotFound(new BaseResponse("Trabajo no encontrado."));
+			}
 
-		return Ok(new BaseResponse(job));
+			return Ok(new BaseResponse(job));
+		}
+		catch (Exception ex)
+		{
+			return StatusCode(500, new BaseResponse($"Error interno del servidor: {ex.Message}"));
+		}
+	}
+
+	[HttpGet("user/{userId}")]
+	public async Task<IActionResult> GetJobsByUserId(int userId)
+	{
+		try
+		{
+			var jobs = await _jobService.GetJobsByUserId(userId);
+			if (jobs == null || !jobs.Any())
+			{
+				return NotFound(new BaseResponse("No se encontraron trabajos para este usuario."));
+			}
+
+			return Ok(new BaseResponse(jobs));
+		}
+		catch (Exception ex)
+		{
+			return StatusCode(500, new BaseResponse($"Error interno del servidor: {ex.Message}"));
+		}
 	}
 }
