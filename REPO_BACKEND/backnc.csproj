@@ -36,6 +36,7 @@
   <ItemGroup>
     <Folder Include="Common\MapperProfiles\" />
     <Folder Include="Data\Enums\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

@@ -13,15 +13,15 @@ using System.Text;
 
 namespace backnc.Service
 {
-    public class UserService : IUserService
-    {
-        private readonly IAppDbContext _context;
+	public class UserService : IUserService
+	{
+		private readonly IAppDbContext _context;
 		private readonly IUserValidationService _userValidationService;
 		private readonly IConfiguration _configuration;
-        public UserService(IAppDbContext context,IConfiguration configuration, IUserValidationService userValidationService)
-        {
-            _context = context;
-            _configuration = configuration;
+		public UserService(IAppDbContext context, IConfiguration configuration, IUserValidationService userValidationService)
+		{
+			_context = context;
+			_configuration = configuration;
 			_userValidationService = userValidationService;
 
 		}
@@ -45,6 +45,45 @@ namespace backnc.Service
 			var token = Generate(user);
 			return Response.Success(token);
 		}
+		//public async Task<BaseResponse> Register(RegisterUser registerUser)
+		//{
+		//	var validator = new RegisterUserValidator(_userValidationService);
+		//	var validationResult = await validator.ValidateAsync(registerUser);
+
+		//	if (!validationResult.IsValid)
+		//	{
+		//		return Response.ValidationError("Error de validación", validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+		//	}
+
+		//	var user = new User
+		//	{
+		//		UserName = registerUser.userName,
+		//		firstName = registerUser.firstName,
+		//		lastName = registerUser.lastName,
+		//		email = registerUser.email,
+		//		dni = registerUser.dni,
+		//		address = registerUser.address,
+		//		phoneNumber = registerUser.phoneNumber,
+		//		Password = PasswordHasher.HashPassword(registerUser.password)
+		//	};
+
+		//	_context.Users.Add(user);
+		//	await _context.SaveChangesAsync();
+
+		//	var role = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "Cliente");
+		//	if (role == null)
+		//	{
+		//		return Response.ValidationError("Rol no encontrado", new List<string> { "El rol 'Cliente' no existe." });
+		//	}
+		//	var userRole = new UserRole
+		//	{
+		//		UserId = user.Id,
+		//		RoleId = role.Id
+		//	};
+		//	_context.UserRoles.Add(userRole);
+		//	await _context.SaveChangesAsync();
+		//	return Response.Success("Usuario registrado exitosamente");
+		//}
 		public async Task<BaseResponse> Register(RegisterUser registerUser)
 		{
 			var validator = new RegisterUserValidator(_userValidationService);
@@ -70,6 +109,18 @@ namespace backnc.Service
 			_context.Users.Add(user);
 			await _context.SaveChangesAsync();
 
+			// Crear perfil vacío para el usuario
+			var profile = new Profile
+			{
+				UserId = user.Id,
+				Specialty = "",
+				Experience = "",
+				Description = "",
+				ImageUrl = ""
+			};
+			_context.Profiles.Add(profile);
+			await _context.SaveChangesAsync();
+
 			var role = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "Cliente");
 			if (role == null)
 			{
@@ -86,31 +137,30 @@ namespace backnc.Service
 		}
 
 		private string Generate(User user)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            
-            var rol = _context.UserRoles
-            .Where(ur => ur.UserId == user.Id)
-            .Select(ur => ur.Role.Name)       
-            .FirstOrDefault();
-			
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier,user.UserName),
-                new Claim(ClaimTypes.Role,rol)
-            };
-            
-            var token = new JwtSecurityToken(
-                _configuration["Jwt:Issuer"],
-                _configuration["Jwt:Audience"],
-                claims,
-                expires: DateTime.Now.AddMinutes(15),
-                signingCredentials: credentials);
+		{
+			var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+			var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
+			var rol = _context.UserRoles
+			.Where(ur => ur.UserId == user.Id)
+			.Select(ur => ur.Role.Name)
+			.FirstOrDefault();
 
+			var claims = new[]
+			{
+				new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+				new Claim(ClaimTypes.Role,rol),
+			};
+
+			var token = new JwtSecurityToken(
+				_configuration["Jwt:Issuer"],
+				_configuration["Jwt:Audience"],
+				claims,
+				expires: DateTime.Now.AddMinutes(15),
+				signingCredentials: credentials);
+
+			return new JwtSecurityTokenHandler().WriteToken(token);
+		}
 		public async Task<BaseResponse> ValidateToken(string token)
 		{
 			var tokenHandler = new JwtSecurityTokenHandler();
@@ -130,10 +180,10 @@ namespace backnc.Service
 				}, out SecurityToken validatedToken);
 
 				var jwtToken = (JwtSecurityToken)validatedToken;
-				var userName = jwtToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+				var userId = jwtToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
 				var role = jwtToken.Claims.First(x => x.Type == ClaimTypes.Role).Value;
 
-				var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+				var user = await _context.Users.FirstOrDefaultAsync(u => u.Id.ToString() == userId);
 
 				if (user == null)
 				{
@@ -144,7 +194,6 @@ namespace backnc.Service
 				{
 					UserName = user.UserName,
 					Role = role,
-					
 				};
 
 				return Response.Success(userResponse);
@@ -153,7 +202,6 @@ namespace backnc.Service
 			{
 				return Response.ValidationError("Token inválido", new List<string> { "El token es inválido o ha expirado." });
 			}
-		}
-
+		}		
 	}
 }

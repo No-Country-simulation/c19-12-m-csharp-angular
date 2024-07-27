@@ -10,6 +10,7 @@ using System.Text;
 using backnc.Interfaces;
 using backnc.Data.Seed;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,12 +28,14 @@ connectionString = connectionString.Replace("${DB_SERVER}", Env.GetString("DB_SE
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
 // Agregar otros servicios al contenedor
+builder.Services.AddScoped<IAppDbContext, AppDbContext>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICountryService, CountryService>();
 builder.Services.AddScoped<IProvinceSerivce, ProvinceService>();
 builder.Services.AddScoped<INeighborhoodService, NeighborhoodService>();
-builder.Services.AddScoped<IAppDbContext, AppDbContext>();
 builder.Services.AddScoped<IUserValidationService, UserValidationService>();
+builder.Services.AddScoped<ProfileService, ProfileService>();
+builder.Services.AddScoped<JobService, JobService>();
 builder.Services.AddScoped<DataSeeder>();
 
 
@@ -92,7 +95,10 @@ builder.Services.AddCors(options =>
 		{
 			builder.WithOrigins("http://localhost:4200")
 				   .AllowAnyHeader()
-				   .AllowAnyMethod();
+				   .AllowAnyMethod()
+				   .AllowCredentials();
+
+
 		});
 });
 
@@ -111,9 +117,15 @@ using (var scope = app.Services.CreateScope())
 	await seeder.SeedAsync();
 }
 
+app.UseHttpsRedirection();
+app.UseStaticFiles(new StaticFileOptions
+{
+	FileProvider = new PhysicalFileProvider(@"C:\Users\Mateo\Desktop\mercadochamba\images"),	
+	RequestPath = "/images"
+});
+
 
 app.UseCors("AllowSpecificOrigin");
-app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
