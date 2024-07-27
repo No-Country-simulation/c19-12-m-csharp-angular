@@ -22,6 +22,22 @@ namespace backnc.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("backnc.Data.POCOEntities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("backnc.Data.POCOEntities.Country", b =>
                 {
                     b.Property<int>("Id")
@@ -61,7 +77,7 @@ namespace backnc.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -123,6 +139,21 @@ namespace backnc.Migrations
                         .IsUnique();
 
                     b.ToTable("Profiles");
+                });
+
+            modelBuilder.Entity("backnc.Data.POCOEntities.ProfileCategory", b =>
+                {
+                    b.Property<int>("ProfileId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProfileId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("ProfileCategories");
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.Province", b =>
@@ -243,11 +274,15 @@ namespace backnc.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("backnc.Data.POCOEntities.User", null)
+                    b.HasOne("backnc.Data.POCOEntities.User", "User")
                         .WithMany("Job")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Profile");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.Neighborhood", b =>
@@ -270,6 +305,25 @@ namespace backnc.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("backnc.Data.POCOEntities.ProfileCategory", b =>
+                {
+                    b.HasOne("backnc.Data.POCOEntities.Category", "Category")
+                        .WithMany("ProfileCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backnc.Data.POCOEntities.Profile", "Profile")
+                        .WithMany("ProfileCategories")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Profile");
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.Province", b =>
@@ -302,9 +356,19 @@ namespace backnc.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("backnc.Data.POCOEntities.Category", b =>
+                {
+                    b.Navigation("ProfileCategories");
+                });
+
             modelBuilder.Entity("backnc.Data.POCOEntities.Country", b =>
                 {
                     b.Navigation("Provinces");
+                });
+
+            modelBuilder.Entity("backnc.Data.POCOEntities.Profile", b =>
+                {
+                    b.Navigation("ProfileCategories");
                 });
 
             modelBuilder.Entity("backnc.Data.POCOEntities.Province", b =>

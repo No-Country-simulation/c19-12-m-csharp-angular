@@ -14,6 +14,9 @@ namespace backnc.Data.Interface
 		DbSet<Neighborhood> Neighborhoods { get; set; }
 		DbSet<Job> Jobs { get; set; }
 		DbSet<Profile> Profiles { get; set; }
+		public DbSet<Category> Categories { get; set; }
+		public DbSet<ProfileCategory> ProfileCategories { get; set; }
+
 
 		Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }

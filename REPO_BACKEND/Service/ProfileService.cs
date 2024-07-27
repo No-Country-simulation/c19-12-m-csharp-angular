@@ -33,6 +33,22 @@ namespace backnc.Service
 		//	return profile;
 		//}
 
+		//public async Task<Profile> UpdateProfile(Profile profile)
+		//{
+		//	var existingProfile = await context.Profiles.FirstOrDefaultAsync(p => p.Id == profile.Id);
+
+		//	if (existingProfile != null)
+		//	{
+		//		existingProfile.Specialty = profile.Specialty;
+		//		existingProfile.Experience = profile.Experience;
+		//		existingProfile.Description = profile.Description;
+		//		existingProfile.ImageUrl = profile.ImageUrl;
+		//		await context.SaveChangesAsync();
+		//	}
+
+		//	return existingProfile;
+		//}
+
 		public async Task<Profile> UpdateProfile(Profile profile)
 		{
 			var existingProfile = await context.Profiles.FirstOrDefaultAsync(p => p.Id == profile.Id);
@@ -47,6 +63,31 @@ namespace backnc.Service
 			}
 
 			return existingProfile;
+		}
+
+		public async Task UpdateProfileCategories(Profile profile, List<int> categoryIds)
+		{
+			var existingProfile = await context.Profiles
+				.Include(p => p.ProfileCategories)
+				.FirstOrDefaultAsync(p => p.Id == profile.Id);
+
+			if (existingProfile != null)
+			{
+				// Remover categorías existentes
+				existingProfile.ProfileCategories.Clear();
+
+				// Agregar nuevas categorías
+				foreach (var categoryId in categoryIds)
+				{
+					var category = await context.Categories.FindAsync(categoryId);
+					if (category != null)
+					{
+						existingProfile.ProfileCategories.Add(new ProfileCategory { ProfileId = profile.Id, CategoryId = categoryId });
+					}
+				}
+
+				await context.SaveChangesAsync();
+			}
 		}
 
 
