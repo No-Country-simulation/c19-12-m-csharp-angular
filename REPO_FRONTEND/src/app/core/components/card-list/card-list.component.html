@@ -3,7 +3,7 @@
 >
   @if(professionals.length > 0){
   <div class="" *ngFor="let profesional of professionals">
-    <div class="card col-1 md:col-4 sm:col-6">
+    <div class="card col-1 md:col-4 sm:col-6" [routerLink]="['/profile', profesional.id_user]">
       <img src="{{ profesional.picUrl }}" alt="{{ profesional.fullName }}" />
 
       <span class="text-xl font-medium">{{ profesional.fullName }}</span>

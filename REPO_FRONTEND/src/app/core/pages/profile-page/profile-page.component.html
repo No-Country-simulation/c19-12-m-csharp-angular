@@ -1,0 +1,35 @@
+<shared-header />
+
+<mat-toolbar
+  class="flex flex-column p-6 h-fit sm:h-fit px-2 sm:px-4 md:px-8 justify-content-center align-items-center flex-nowrap row-gap-2 sm:row-gap-3"
+  color="primary"
+>
+  <img
+    [src]="card?.picUrl"
+    [alt]="card?.fullName"
+    class="w-15rem h-10rem border-2 border-round-2xl"
+  />
+  <h1 class="text-4xl white-space-normal text-center font-semibold">
+    {{ card?.fullName }}
+  </h1>
+  <p class="white-space-normal text-center opacity-80">
+    {{ card?.category }}
+  </p>
+  <div class="flex flex-column sm:flex-row align-items-center gap-2">
+    <div class="flex align-items-center">
+      <mat-icon color="accent">reviews</mat-icon>
+      <span class="ml-2 text-lg"> Reseñas ({{ card?.cantReviews }}) </span>
+    </div>
+    <div class="flex align-items-center">
+      <mat-icon color="accent">thumb_up</mat-icon>
+      <span class="ml-2 text-lg">
+        <mat-icon *ngFor="let i of [1, 2, 3, 4, 5]" color="accent">
+          {{ i <= (card?.ranking ?? 0) ? "star" : "star_half" }}
+        </mat-icon>
+      </span>
+    </div>
+  </div>
+  <button mat-raised-button color="accent" class="border-round-2xl py-2 px-8">
+    Contactar
+  </button>
+</mat-toolbar>
