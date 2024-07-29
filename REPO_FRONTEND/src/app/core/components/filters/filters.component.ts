@@ -7,13 +7,16 @@ import {
   Output,
 } from '@angular/core';
 import { MaterialModule } from '../../../material/material.module';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import {
-  Category,
-  IdCategory,
-} from '../../models/category.interface';
+  FormBuilder,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Category, IdCategory } from '../../models/category.interface';
 import { CategoryService } from '../../services/category.service';
+import { ListCardsService } from '../../services/list-cards.service';
 
 @Component({
   selector: 'app-filters',
@@ -26,9 +29,12 @@ export class FiltersComponent implements OnInit {
   private fb = inject(FormBuilder);
 
   public formSearch = this.fb.group({
-    search: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+    search: [
+      this.listCardsService.text,
+      [Validators.required, Validators.minLength(3), Validators.maxLength(50)],
+    ],
   });
-  
+
   @Input()
   public categories: Category[] = [];
   @Input()
@@ -38,7 +44,7 @@ export class FiltersComponent implements OnInit {
 
   @Output() search = new EventEmitter<string>();
 
-  constructor() {}
+  constructor(private listCardsService: ListCardsService) {}
 
   ngOnInit(): void {}
 
@@ -53,12 +59,18 @@ export class FiltersComponent implements OnInit {
     }
   }
 
-  disabled(event: Event){
+  disabled(event: Event) {
     event.preventDefault();
   }
 
-  resetText(){
+  resetText() {
     this.search.emit('');
     this.formSearch.reset();
+  }
+
+  onKeyUpReset(){
+    if (this.formSearch.value.search?.trim() === '') {
+      this.search.emit('');
+    }
   }
 }

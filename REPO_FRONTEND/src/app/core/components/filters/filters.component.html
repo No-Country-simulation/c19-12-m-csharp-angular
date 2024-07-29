@@ -26,6 +26,7 @@
         placeholder="Carpintería,Electricidad,Juan Perez,..."
         formControlName="search"
         (keydown.enter)="disabled($event)"
+        (keyup)="onKeyUpReset()"
       />
 
       <button matSuffix mat-icon-button (click)="resetText()">
