@@ -24,17 +24,20 @@ import { Category, IdCategory } from '../../models/category.interface';
 })
 export class IndexPageComponent implements OnInit {
   public cards: Card[] = [];
-  public categories: Category[] = [];
+  public categories!: Category[];
   public idSelectedCategory?: IdCategory;
   public textSearch: string = '';
 
   constructor(
     private categoryService: CategoryService,
     private listCardService: ListCardsService
-  ) {}
+  ) {
+    this.categoryService.getCategories().subscribe((categories) => {
+      this.categories = categories;
+    });
+  }
 
   ngOnInit(): void {
-    this.categories = this.categoryService.getCategories();
     this.idSelectedCategory = this.categoryService.selectedCategory().id;
     this.subscribeToFilteredCards();
   }
