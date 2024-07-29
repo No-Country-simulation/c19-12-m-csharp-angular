@@ -8,7 +8,7 @@ namespace backnc.Common.DTOs.ProfileDTO
 		public string Experience { get; set; }
 		public string Description { get; set; }
 		public IFormFile Image { get; set; }
-		public int? CategoryId { get; set; }
+		public List<int> CategoryIds { get; set; }
 
 	}
 }

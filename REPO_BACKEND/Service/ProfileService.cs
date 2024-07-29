@@ -21,35 +21,14 @@ namespace backnc.Service
 		{
 			return await context.Profiles.ToListAsync();
 		}
-
-		//public async Task<ProfileDTO> GetProfileByUser(int userId)
-		//{
-		//	var profile = await context.Profiles.Include(p => p.ProfileCategories)
-		//										.ThenInclude(pc => pc.Category)
-		//										.FirstOrDefaultAsync(p => p.UserId == userId);
-
-		//	if (profile == null)
-		//	{
-		//		return null;
-		//	}
-
-		//	var profileDto = new ProfileDTO
-		//	{
-		//		Id = profile.Id,
-		//		UserId = profile.UserId,
-		//		Specialty = profile.Specialty,
-		//		Experience = profile.Experience,
-		//		Description = profile.Description,
-		//		ImageUrl = profile.ImageUrl,
-		//		Categories = profile.ProfileCategories.Select(pc => new CategoryDTO
-		//		{
-		//			Id = pc.Category.Id,
-		//			Name = pc.Category.Name
-		//		}).ToList()
-		//	};
-
-		//	return profileDto;
-		//}
+		public async Task<List<Profile>> GetProfilesByCategory(int categoryId)
+		{
+			return await context.Profiles
+								.Include(p => p.ProfileCategories)
+								.ThenInclude(pc => pc.Category)
+								.Where(p => p.ProfileCategories.Any(pc => pc.CategoryId == categoryId))
+								.ToListAsync();
+		}
 
 		public async Task<Profile> GetProfileByUser(int userId)
 		{
@@ -58,7 +37,6 @@ namespace backnc.Service
 										 .ThenInclude(pc => pc.Category)
 										 .FirstOrDefaultAsync(p => p.UserId == userId);
 		}
-
 
 		public async Task<Profile> UpdateProfile(Profile profile)
 		{
