@@ -1,4 +1,5 @@
-﻿using backnc.Data.Interface;
+﻿using backnc.Common.DTOs.ProfileDTO;
+using backnc.Data.Interface;
 using backnc.Data.POCOEntities;
 using backnc.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -21,33 +22,43 @@ namespace backnc.Service
 			return await context.Profiles.ToListAsync();
 		}
 
-		public async Task<Profile> GetProfileByUser(int userId)
-		{
-			return await context.Profiles.FirstOrDefaultAsync(p => p.UserId == userId);
-		}
-
-		//public async Task<Profile> CreateProfile(Profile profile)
+		//public async Task<ProfileDTO> GetProfileByUser(int userId)
 		//{
-		//	context.Profiles.Add(profile);
-		//	await context.SaveChangesAsync();
-		//	return profile;
-		//}
+		//	var profile = await context.Profiles.Include(p => p.ProfileCategories)
+		//										.ThenInclude(pc => pc.Category)
+		//										.FirstOrDefaultAsync(p => p.UserId == userId);
 
-		//public async Task<Profile> UpdateProfile(Profile profile)
-		//{
-		//	var existingProfile = await context.Profiles.FirstOrDefaultAsync(p => p.Id == profile.Id);
-
-		//	if (existingProfile != null)
+		//	if (profile == null)
 		//	{
-		//		existingProfile.Specialty = profile.Specialty;
-		//		existingProfile.Experience = profile.Experience;
-		//		existingProfile.Description = profile.Description;
-		//		existingProfile.ImageUrl = profile.ImageUrl;
-		//		await context.SaveChangesAsync();
+		//		return null;
 		//	}
 
-		//	return existingProfile;
+		//	var profileDto = new ProfileDTO
+		//	{
+		//		Id = profile.Id,
+		//		UserId = profile.UserId,
+		//		Specialty = profile.Specialty,
+		//		Experience = profile.Experience,
+		//		Description = profile.Description,
+		//		ImageUrl = profile.ImageUrl,
+		//		Categories = profile.ProfileCategories.Select(pc => new CategoryDTO
+		//		{
+		//			Id = pc.Category.Id,
+		//			Name = pc.Category.Name
+		//		}).ToList()
+		//	};
+
+		//	return profileDto;
 		//}
+
+		public async Task<Profile> GetProfileByUser(int userId)
+		{
+
+			return await context.Profiles.Include(p => p.ProfileCategories)
+										 .ThenInclude(pc => pc.Category)
+										 .FirstOrDefaultAsync(p => p.UserId == userId);
+		}
+
 
 		public async Task<Profile> UpdateProfile(Profile profile)
 		{
@@ -72,11 +83,9 @@ namespace backnc.Service
 				.FirstOrDefaultAsync(p => p.Id == profile.Id);
 
 			if (existingProfile != null)
-			{
-				// Remover categorías existentes
+			{				
 				existingProfile.ProfileCategories.Clear();
-
-				// Agregar nuevas categorías
+				
 				foreach (var categoryId in categoryIds)
 				{
 					var category = await context.Categories.FindAsync(categoryId);
@@ -85,7 +94,6 @@ namespace backnc.Service
 						existingProfile.ProfileCategories.Add(new ProfileCategory { ProfileId = profile.Id, CategoryId = categoryId });
 					}
 				}
-
 				await context.SaveChangesAsync();
 			}
 		}

@@ -1,19 +1,22 @@
-﻿using backnc.Common.DTOs.CategoryDTO;
+﻿using backnc.Data.POCOEntities;
 
 namespace backnc.Common.DTOs.ProfileDTO
 {
 	public static class ProfileExtensions
 	{
-		public static CreateProfileDTO ToDto(this CreateProfileDTO profile)
+		public static ProfileDTO ToDto(this Profile profile)
 		{
-			return new CreateProfileDTO
-			{								
+			return new ProfileDTO
+			{
+				Id = profile.Id,
+				UserId = profile.UserId,
 				Specialty = profile.Specialty,
 				Experience = profile.Experience,
 				Description = profile.Description,
-				
-				Categories = profile.p.Select(pc => new CreateCategoryDTO
-				{					
+				ImageUrl = profile.ImageUrl,
+				Categories = profile.ProfileCategories.Select(pc => new CategoryDTO
+				{
+					Id = pc.CategoryId,
 					Name = pc.Category.Name
 				}).ToList()
 			};

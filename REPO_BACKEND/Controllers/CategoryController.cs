@@ -27,7 +27,7 @@ namespace backnc.Controllers
 		}
 
 		[HttpPost]
-		[Authorize(Roles = "Admin")]  // Restringir acceso solo a administradores
+		[Authorize(Roles = "Admin")]  
 		public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDTO createCategoryDto)
 		{
 			if (createCategoryDto == null || string.IsNullOrWhiteSpace(createCategoryDto.Name))
@@ -44,6 +44,38 @@ namespace backnc.Controllers
 			await _context.SaveChangesAsync();
 
 			return Ok(new BaseResponse(category));
+		}
+
+		[HttpPut("{id}")]
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> UpdateCategory(int id, [FromBody] CreateCategoryDTO updateCategoryDto)
+		{
+			var category = await _context.Categories.FindAsync(id);
+			if (category == null)
+			{
+				return NotFound(new BaseResponse("Category not found."));
+			}
+
+			category.Name = updateCategoryDto.Name;
+			await _context.SaveChangesAsync();
+
+			return Ok(new BaseResponse(category));
+		}
+
+		[HttpDelete("{id}")]
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> DeleteCategory(int id)
+		{
+			var category = await _context.Categories.FindAsync(id);
+			if (category == null)
+			{
+				return NotFound(new BaseResponse("Category not found."));
+			}
+
+			_context.Categories.Remove(category);
+			await _context.SaveChangesAsync();
+
+			return Ok(new BaseResponse("Category deleted successfully."));
 		}
 	}
 }

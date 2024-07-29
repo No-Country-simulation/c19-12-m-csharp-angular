@@ -59,6 +59,22 @@ namespace backnc.Controllers
 			profile.Experience = createProfileDTO.Experience;
 			profile.Description = createProfileDTO.Description;
 
+			if (createProfileDTO.CategoryId.HasValue)
+			{
+				var category = await _context.Categories.FindAsync(createProfileDTO.CategoryId.Value);
+				if (category == null)
+				{
+					return BadRequest(new BaseResponse("Categoría no encontrada."));
+				}
+
+				var profileCategory = new ProfileCategory
+				{
+					ProfileId = profile.Id,
+					CategoryId = category.Id
+				};
+				profile.ProfileCategories.Add(profileCategory);
+			}
+
 			if (createProfileDTO.Image != null)
 			{
 				try
@@ -71,7 +87,6 @@ namespace backnc.Controllers
 					return StatusCode(500, new BaseResponse("Error al guardar la imagen.", ex.Message, true));
 				}
 			}
-
 			try
 			{
 				await _profileService.UpdateProfile(profile);
@@ -82,6 +97,8 @@ namespace backnc.Controllers
 				return StatusCode(500, new BaseResponse("Error al actualizar el perfil.", ex.Message, true));
 			}
 		}
+
+	
 
 		[HttpGet("CurrentUserProfile")]
 		[Authorize]
@@ -95,7 +112,8 @@ namespace backnc.Controllers
 				{
 					return NotFound(new BaseResponse("Perfil no encontrado."));
 				}
-				return Ok(new BaseResponse(profile));
+				var profileDto = profile.ToDto();
+				return Ok(new BaseResponse(profileDto));
 			}
 			catch (Exception ex)
 			{
@@ -121,6 +139,7 @@ namespace backnc.Controllers
 				return StatusCode(500, new BaseResponse("Error al obtener el perfil.", ex.Message, true));
 			}
 		}
+	
 
 		[HttpGet("AllProfiles")]
 		[Authorize(Roles = "Admin")]

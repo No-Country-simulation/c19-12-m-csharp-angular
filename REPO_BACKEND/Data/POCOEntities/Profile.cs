@@ -10,6 +10,5 @@
 		public string ImageUrl { get; set; }		
 		public User User { get; set; }
 		public ICollection<ProfileCategory> ProfileCategories { get; set; } = new List<ProfileCategory>();
-
 	}
 }
