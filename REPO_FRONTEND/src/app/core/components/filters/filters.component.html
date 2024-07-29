@@ -2,7 +2,7 @@
   <div class="grid justify-content-center gap-4 py-2 sm:py-4 md:py-4">
     <button
       mat-raised-button
-      *ngFor="let category of categories"
+      *ngFor="let category of categories.slice(0, 8)"
       class="h-3rem lg:h-6rem col-5 lg:col border-round-xl p-1"
       [color]="idSelectedCategory === category.id ? 'accent' : 'primary'"
       (click)="emitSelectCategory(category.id)"

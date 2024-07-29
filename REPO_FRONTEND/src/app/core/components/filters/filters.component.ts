@@ -15,7 +15,6 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Category, IdCategory } from '../../models/category.interface';
-import { CategoryService } from '../../services/category.service';
 import { ListCardsService } from '../../services/list-cards.service';
 
 @Component({
@@ -36,7 +35,7 @@ export class FiltersComponent implements OnInit {
   });
 
   @Input()
-  public categories: Category[] = [];
+  public categories!: Category[];
   @Input()
   public idSelectedCategory?: IdCategory;
 
