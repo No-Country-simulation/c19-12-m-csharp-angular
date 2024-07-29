@@ -116,8 +116,8 @@ export class ListCardsService {
 
     const cards = this.listCards.filter((card) => {
       const matchesText =
-        card.fullName.toLowerCase().includes(this.normalizeText(text)) ||
-        card.category.toLowerCase().includes(this.normalizeText(text));
+       this.normalizeText(card.fullName).includes(this.normalizeText(text)) ||
+       this.normalizeText(card.category).includes(this.normalizeText(text));
       const matchesCategory =
         category === 'Todos' || card.category === category;
       return matchesText && matchesCategory;
