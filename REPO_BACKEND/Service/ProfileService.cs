@@ -1,4 +1,5 @@
-﻿using backnc.Data.Interface;
+﻿using backnc.Common.DTOs.ProfileDTO;
+using backnc.Data.Interface;
 using backnc.Data.POCOEntities;
 using backnc.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -21,17 +22,43 @@ namespace backnc.Service
 			return await context.Profiles.ToListAsync();
 		}
 
+		//public async Task<ProfileDTO> GetProfileByUser(int userId)
+		//{
+		//	var profile = await context.Profiles.Include(p => p.ProfileCategories)
+		//										.ThenInclude(pc => pc.Category)
+		//										.FirstOrDefaultAsync(p => p.UserId == userId);
+
+		//	if (profile == null)
+		//	{
+		//		return null;
+		//	}
+
+		//	var profileDto = new ProfileDTO
+		//	{
+		//		Id = profile.Id,
+		//		UserId = profile.UserId,
+		//		Specialty = profile.Specialty,
+		//		Experience = profile.Experience,
+		//		Description = profile.Description,
+		//		ImageUrl = profile.ImageUrl,
+		//		Categories = profile.ProfileCategories.Select(pc => new CategoryDTO
+		//		{
+		//			Id = pc.Category.Id,
+		//			Name = pc.Category.Name
+		//		}).ToList()
+		//	};
+
+		//	return profileDto;
+		//}
+
 		public async Task<Profile> GetProfileByUser(int userId)
 		{
-			return await context.Profiles.FirstOrDefaultAsync(p => p.UserId == userId);
+
+			return await context.Profiles.Include(p => p.ProfileCategories)
+										 .ThenInclude(pc => pc.Category)
+										 .FirstOrDefaultAsync(p => p.UserId == userId);
 		}
 
-		//public async Task<Profile> CreateProfile(Profile profile)
-		//{
-		//	context.Profiles.Add(profile);
-		//	await context.SaveChangesAsync();
-		//	return profile;
-		//}
 
 		public async Task<Profile> UpdateProfile(Profile profile)
 		{
@@ -47,6 +74,28 @@ namespace backnc.Service
 			}
 
 			return existingProfile;
+		}
+
+		public async Task UpdateProfileCategories(Profile profile, List<int> categoryIds)
+		{
+			var existingProfile = await context.Profiles
+				.Include(p => p.ProfileCategories)
+				.FirstOrDefaultAsync(p => p.Id == profile.Id);
+
+			if (existingProfile != null)
+			{				
+				existingProfile.ProfileCategories.Clear();
+				
+				foreach (var categoryId in categoryIds)
+				{
+					var category = await context.Categories.FindAsync(categoryId);
+					if (category != null)
+					{
+						existingProfile.ProfileCategories.Add(new ProfileCategory { ProfileId = profile.Id, CategoryId = categoryId });
+					}
+				}
+				await context.SaveChangesAsync();
+			}
 		}
 
 

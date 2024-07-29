@@ -10,6 +10,8 @@
 		public string ImageUrl { get; set; }
 		public DateTime CreatedAt { get; set; }		
 		public Profile Profile { get; set; }
+		public User User { get; set; } // Agrega esta propiedad
+
 
 	}
 }
