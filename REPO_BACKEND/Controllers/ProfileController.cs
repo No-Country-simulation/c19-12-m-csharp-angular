@@ -43,6 +43,62 @@ namespace backnc.Controllers
 			}
 		}
 
+		//[Authorize]
+		//[HttpPut]
+		//public async Task<IActionResult> UpdateProfile([FromForm] CreateProfileDTO createProfileDTO)
+		//{
+		//	var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+		//	var profile = await _profileService.GetProfileByUser(userId);
+
+		//	if (profile == null)
+		//	{
+		//		return NotFound(new BaseResponse("Perfil no encontrado."));
+		//	}
+
+		//	profile.Specialty = createProfileDTO.Specialty;
+		//	profile.Experience = createProfileDTO.Experience;
+		//	profile.Description = createProfileDTO.Description;
+
+		//	if (createProfileDTO.CategoryId.HasValue)
+		//	{
+		//		var category = await _context.Categories.FindAsync(createProfileDTO.CategoryId.Value);
+		//		if (category == null)
+		//		{
+		//			return BadRequest(new BaseResponse("Categoría no encontrada."));
+		//		}
+
+		//		var profileCategory = new ProfileCategory
+		//		{
+		//			ProfileId = profile.Id,
+		//			CategoryId = category.Id
+		//		};
+		//		profile.ProfileCategories.Add(profileCategory);
+		//	}
+
+		//	if (createProfileDTO.Image != null)
+		//	{
+		//		try
+		//		{
+		//			var imageUrl = await _profileService.SaveImageAsync(createProfileDTO.Image);
+		//			profile.ImageUrl = imageUrl;
+		//		}
+		//		catch (Exception ex)
+		//		{
+		//			return StatusCode(500, new BaseResponse("Error al guardar la imagen.", ex.Message, true));
+		//		}
+		//	}
+		//	try
+		//	{
+		//		await _profileService.UpdateProfile(profile);
+		//		return Ok(new BaseResponse("Perfil actualizado correctamente."));
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		return StatusCode(500, new BaseResponse("Error al actualizar el perfil.", ex.Message, true));
+		//	}
+		//}
+
+
 		[Authorize]
 		[HttpPut]
 		public async Task<IActionResult> UpdateProfile([FromForm] CreateProfileDTO createProfileDTO)
@@ -59,22 +115,34 @@ namespace backnc.Controllers
 			profile.Experience = createProfileDTO.Experience;
 			profile.Description = createProfileDTO.Description;
 
-			if (createProfileDTO.CategoryId.HasValue)
-			{
-				var category = await _context.Categories.FindAsync(createProfileDTO.CategoryId.Value);
-				if (category == null)
-				{
-					return BadRequest(new BaseResponse("Categoría no encontrada."));
-				}
+			// Actualizar las categorías del perfil
+			var currentCategoryIds = profile.ProfileCategories.Select(pc => pc.CategoryId).ToList();
+			var newCategoryIds = createProfileDTO.CategoryIds ?? new List<int>();
 
-				var profileCategory = new ProfileCategory
-				{
-					ProfileId = profile.Id,
-					CategoryId = category.Id
-				};
-				profile.ProfileCategories.Add(profileCategory);
+			// Eliminar categorías que ya no están en la nueva lista
+			var categoriesToRemove = profile.ProfileCategories.Where(pc => !newCategoryIds.Contains(pc.CategoryId)).ToList();
+			foreach (var categoryToRemove in categoriesToRemove)
+			{
+				profile.ProfileCategories.Remove(categoryToRemove);
 			}
 
+			// Añadir nuevas categorías que no están en las actuales
+			var categoriesToAdd = newCategoryIds.Where(id => !currentCategoryIds.Contains(id)).ToList();
+			foreach (var categoryId in categoriesToAdd)
+			{
+				var category = await _context.Categories.FindAsync(categoryId);
+				if (category != null)
+				{
+					var profileCategory = new ProfileCategory
+					{
+						ProfileId = profile.Id,
+						CategoryId = category.Id
+					};
+					profile.ProfileCategories.Add(profileCategory);
+				}
+			}
+
+			// Actualizar la imagen del perfil si se proporciona una nueva imagen
 			if (createProfileDTO.Image != null)
 			{
 				try
@@ -87,6 +155,7 @@ namespace backnc.Controllers
 					return StatusCode(500, new BaseResponse("Error al guardar la imagen.", ex.Message, true));
 				}
 			}
+
 			try
 			{
 				await _profileService.UpdateProfile(profile);
@@ -98,7 +167,19 @@ namespace backnc.Controllers
 			}
 		}
 
-	
+		[Authorize]
+		[HttpGet("category/{categoryId}")]
+		public async Task<IActionResult> GetProfilesByCategory(int categoryId)
+		{
+			var profiles = await _profileService.GetProfilesByCategory(categoryId);
+			if (profiles == null || !profiles.Any())
+			{
+				return NotFound(new BaseResponse("No se encontraron perfiles para esta categoría."));
+			}
+
+			var profileDtos = profiles.Select(p => p.ToDto()).ToList();
+			return Ok(new BaseResponse("Perfiles encontrados", profileDtos, false));
+		}
 
 		[HttpGet("CurrentUserProfile")]
 		[Authorize]

@@ -17,7 +17,9 @@ public class DataSeeder
 		await CreateRolesAsync();
 		await CreateAdminUserAsync();
 		await CreateClienteAsync();
-		await CreateCountriesAsync();		
+		await CreateCountriesAsync();
+		await CreateCategoriesAsync();
+
 	}
 
 	private async Task CreateRolesAsync()
@@ -31,6 +33,28 @@ public class DataSeeder
 		};
 
 		await _context.Roles.AddRangeAsync(roles);
+		await _context.SaveChangesAsync();
+	}
+
+	private async Task CreateCategoriesAsync()
+	{
+		if (await _context.Categories.AnyAsync()) return;
+
+		var categories = new[]
+		{
+		new Category { Name = "Programador" },
+		new Category { Name = "Electricista" },
+		new Category { Name = "Plomero" },
+		new Category { Name = "Odontólogo" },
+		new Category { Name = "Contador" },
+		new Category { Name = "Abogado" },
+		new Category { Name = "Profesor" },
+		new Category { Name = "Albañil" },
+		new Category { Name = "Mecánico" }, 
+        new Category { Name = "Carpintero" } 
+    };
+
+		await _context.Categories.AddRangeAsync(categories);
 		await _context.SaveChangesAsync();
 	}
 
