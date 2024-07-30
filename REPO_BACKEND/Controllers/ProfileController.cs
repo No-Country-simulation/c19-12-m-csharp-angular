@@ -1,4 +1,5 @@
-﻿using backnc.Common.DTOs.ProfileDTO;
+﻿using backnc.Common.DTOs.CategoryDTO;
+using backnc.Common.DTOs.ProfileDTO;
 using backnc.Common.Response;
 using backnc.Data.Context;
 using backnc.Data.POCOEntities;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using CategoryDTO = backnc.Common.DTOs.ProfileDTO.CategoryDTO;
 
 namespace backnc.Controllers
 {
@@ -42,61 +44,6 @@ namespace backnc.Controllers
 				return StatusCode(500, new BaseResponse("Error al obtener el perfil.", ex.Message, true));
 			}
 		}
-
-		//[Authorize]
-		//[HttpPut]
-		//public async Task<IActionResult> UpdateProfile([FromForm] CreateProfileDTO createProfileDTO)
-		//{
-		//	var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-		//	var profile = await _profileService.GetProfileByUser(userId);
-
-		//	if (profile == null)
-		//	{
-		//		return NotFound(new BaseResponse("Perfil no encontrado."));
-		//	}
-
-		//	profile.Specialty = createProfileDTO.Specialty;
-		//	profile.Experience = createProfileDTO.Experience;
-		//	profile.Description = createProfileDTO.Description;
-
-		//	if (createProfileDTO.CategoryId.HasValue)
-		//	{
-		//		var category = await _context.Categories.FindAsync(createProfileDTO.CategoryId.Value);
-		//		if (category == null)
-		//		{
-		//			return BadRequest(new BaseResponse("Categoría no encontrada."));
-		//		}
-
-		//		var profileCategory = new ProfileCategory
-		//		{
-		//			ProfileId = profile.Id,
-		//			CategoryId = category.Id
-		//		};
-		//		profile.ProfileCategories.Add(profileCategory);
-		//	}
-
-		//	if (createProfileDTO.Image != null)
-		//	{
-		//		try
-		//		{
-		//			var imageUrl = await _profileService.SaveImageAsync(createProfileDTO.Image);
-		//			profile.ImageUrl = imageUrl;
-		//		}
-		//		catch (Exception ex)
-		//		{
-		//			return StatusCode(500, new BaseResponse("Error al guardar la imagen.", ex.Message, true));
-		//		}
-		//	}
-		//	try
-		//	{
-		//		await _profileService.UpdateProfile(profile);
-		//		return Ok(new BaseResponse("Perfil actualizado correctamente."));
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		return StatusCode(500, new BaseResponse("Error al actualizar el perfil.", ex.Message, true));
-		//	}
-		//}
 
 
 		[Authorize]
@@ -167,7 +114,7 @@ namespace backnc.Controllers
 			}
 		}
 
-		
+
 		[HttpGet("category/{categoryId}")]
 		public async Task<IActionResult> GetProfilesByCategory(int categoryId)
 		{
@@ -202,7 +149,7 @@ namespace backnc.Controllers
 			}
 		}
 
-		[HttpGet("ByUserId/{userId}")]		
+		[HttpGet("ByUserId/{userId}")]
 		public async Task<IActionResult> GetProfileByUserId(int userId)
 		{
 			try
@@ -212,27 +159,93 @@ namespace backnc.Controllers
 				{
 					return NotFound(new BaseResponse("Perfil no encontrado."));
 				}
-				return Ok(new BaseResponse(profile));
+
+				var profileDto = new ProfileDTO
+				{
+					Id = profile.Id,
+					UserId = profile.UserId,
+					UserName = profile.User.UserName,					
+					phoneNumber = profile.User.phoneNumber,
+					Specialty = profile.Specialty,
+					Experience = profile.Experience,
+					Description = profile.Description,
+					ImageUrl = profile.ImageUrl,
+					Categories = profile.ProfileCategories.Select(pc => new CategoryDTO
+					{
+						Id = pc.CategoryId,
+						Name = pc.Category.Name
+					}).ToList()
+				};
+
+				return Ok(new BaseResponse("Perfil encontrado", profileDto, true));
 			}
 			catch (Exception ex)
 			{
 				return StatusCode(500, new BaseResponse("Error al obtener el perfil.", ex.Message, true));
 			}
 		}
-	
 
-		[HttpGet("AllProfiles")]		
+		[HttpGet("AllProfiles")]
 		public async Task<IActionResult> GetAllProfiles()
 		{
 			try
 			{
 				var profiles = await _profileService.GetAllProfiles();
-				return Ok(new BaseResponse(profiles));
+				var profileDtos = profiles.Select(profile => new ProfileDTO
+				{
+					Id = profile.Id,
+					UserId = profile.UserId,
+					UserName = profile.User.UserName,  					
+					Specialty = profile.Specialty,
+					Experience = profile.Experience,
+					Description = profile.Description,
+					ImageUrl = profile.ImageUrl,
+					Categories = profile.ProfileCategories.Select(pc => new CategoryDTO
+					{
+						Id = pc.CategoryId,
+						Name = pc.Category.Name
+					}).ToList()
+				}).ToList();
+
+				return Ok(new BaseResponse("Perfiles encontrados", profileDtos, true));
 			}
 			catch (Exception ex)
 			{
 				return StatusCode(500, new BaseResponse("Error al obtener todos los perfiles.", ex.Message, true));
 			}
+
+			//[HttpGet("ByUserId/{userId}")]		
+			//public async Task<IActionResult> GetProfileByUserId(int userId)
+			//{
+			//	try
+			//	{
+			//		var profile = await _profileService.GetProfileByUser(userId);
+			//		if (profile == null)
+			//		{
+			//			return NotFound(new BaseResponse("Perfil no encontrado."));
+			//		}
+			//		return Ok(new BaseResponse(profile));
+			//	}
+			//	catch (Exception ex)
+			//	{
+			//		return StatusCode(500, new BaseResponse("Error al obtener el perfil.", ex.Message, true));
+			//	}
+			//}
+
+
+			//[HttpGet("AllProfiles")]		
+			//public async Task<IActionResult> GetAllProfiles()
+			//{
+			//	try
+			//	{
+			//		var profiles = await _profileService.GetAllProfiles();
+			//		return Ok(new BaseResponse(profiles));
+			//	}
+			//	catch (Exception ex)
+			//	{
+			//		return StatusCode(500, new BaseResponse("Error al obtener todos los perfiles.", ex.Message, true));
+			//	}
+			//}
 		}
-	}	
+	}
 }
