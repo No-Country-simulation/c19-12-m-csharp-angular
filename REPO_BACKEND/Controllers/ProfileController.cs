@@ -167,7 +167,7 @@ namespace backnc.Controllers
 			}
 		}
 
-		[Authorize]
+		
 		[HttpGet("category/{categoryId}")]
 		public async Task<IActionResult> GetProfilesByCategory(int categoryId)
 		{
