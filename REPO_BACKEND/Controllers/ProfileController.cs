@@ -202,8 +202,7 @@ namespace backnc.Controllers
 			}
 		}
 
-		[HttpGet("ByUserId/{userId}")]
-		[Authorize]
+		[HttpGet("ByUserId/{userId}")]		
 		public async Task<IActionResult> GetProfileByUserId(int userId)
 		{
 			try
