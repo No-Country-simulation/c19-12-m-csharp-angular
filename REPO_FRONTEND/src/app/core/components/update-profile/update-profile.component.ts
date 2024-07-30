@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
   templateUrl: './update-profile.component.html',
   styleUrl: './update-profile.component.scss',
 })
-export class UpdateProfileComponent implements OnInit {
+export class UpdateProfileComponent {
   private fb = inject(FormBuilder);
   private snackbarService = inject(SnackbarService);
   private router = inject(Router);
@@ -34,7 +34,7 @@ export class UpdateProfileComponent implements OnInit {
     CategoryId: [null, [Validators.required]],
   });
 
-  ngOnInit(): void {
+  constructor() {
     this.categoryService.getCategories().subscribe((categories) => {
       this.categories = categories.slice(1);
     });

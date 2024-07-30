@@ -24,7 +24,7 @@ import { Category, IdCategory } from '../../models/category.interface';
 })
 export class IndexPageComponent implements OnInit {
   public cards: Card[] = [];
-  public categories!: Category[];
+  public categories: Category[] = [];
   public idSelectedCategory?: IdCategory;
   public textSearch: string = '';
 

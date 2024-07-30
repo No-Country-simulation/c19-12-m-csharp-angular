@@ -21,7 +21,7 @@ export class CategoryService {
     name: 'Todos',
     icon: 'public',
   };
-  private categories: Category[] = [];
+  
   private categoriesDefault: Category[] = [
     { id: 0, name: 'Todos', icon: 'public' },
     { id: 1, name: 'Refrigeración', icon: 'ac_unit' },
