@@ -54,7 +54,7 @@ export class FiltersComponent implements OnInit {
   emitSearch() {
     if (this.formSearch.valid) {
       const searchText = this.formSearch.value.search!;
-      this.search.emit(searchText.toLocaleLowerCase());
+      this.search.emit(searchText);
     }
   }
 

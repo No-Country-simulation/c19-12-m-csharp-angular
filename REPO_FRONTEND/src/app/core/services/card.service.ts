@@ -1,18 +1,26 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ListCardsService } from './list-cards.service';
-import { Card, IdCard } from '../models/card.interface';
-
+import { Card, CardResponse, IdCard } from '../models/card.interface';
+import { environment } from '../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
 export class CardService {
-  private cards: Card[] = [];
+  private readonly API_URL: string = environment.API_URL;
+  private http = inject(HttpClient);
 
-  constructor(private listCardsService: ListCardsService) {
-    this.cards = this.listCardsService.listCards;
-  }
+  constructor() {}
 
   getCardById(id: IdCard) {
-    return this.cards.find((card) => card.id_user === id);
+    const url = `${this.API_URL}/api/Profile/ByUserId/${id}`;
+    return this.http.get<CardResponse>(url).pipe(
+      (response) => {
+        return response;
+      },
+      (error) => {
+        return error;
+      }
+    );
   }
 }
