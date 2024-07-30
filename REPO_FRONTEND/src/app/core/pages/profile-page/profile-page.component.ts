@@ -3,13 +3,15 @@ import { HeaderComponent } from '../../../shared/components/header/header.compon
 import { MaterialModule } from '../../../material/material.module';
 import { CommonModule } from '@angular/common';
 import { CardService } from '../../services/card.service';
-import { Card, IdCard } from '../../models/card.interface';
+
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Card, IdCard } from '../../models/card.interface';
+import { CategoriesToStringPipe } from "../../pipes/categories-to-string.pipe";
 
 @Component({
   selector: 'app-profile-page',
   standalone: true,
-  imports: [CommonModule, MaterialModule, HeaderComponent, RouterModule],
+  imports: [CommonModule, MaterialModule, HeaderComponent, RouterModule, CategoriesToStringPipe],
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.scss',
 })
@@ -33,13 +35,15 @@ export class ProfilePageComponent {
     });
   }
 
-  private loadCard(id: number): void {
-    const card = this.cardService.getCardById(id);
-    if (card) {
-      this.card = card;
-    } else {
-      console.error(`Card with id ${id} not found`);
-      this.router.navigate(['/']);
-    }
+  private loadCard(id: IdCard): void {
+    const card = this.cardService.getCardById(id).subscribe(
+      (response) => {
+        this.card = response.data;
+      },
+      (error) => {
+        console.error('Error loading card:', error);
+        this.router.navigate(['/']);
+      }
+    );
   }
 }
