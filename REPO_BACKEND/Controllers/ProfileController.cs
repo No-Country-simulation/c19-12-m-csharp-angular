@@ -1,4 +1,5 @@
-﻿using backnc.Common.DTOs.CategoryDTO;
+﻿using AutoMapper;
+using backnc.Common.DTOs.CategoryDTO;
 using backnc.Common.DTOs.ProfileDTO;
 using backnc.Common.Response;
 using backnc.Data.Context;
@@ -115,6 +116,20 @@ namespace backnc.Controllers
 		}
 
 
+		//[HttpGet("category/{categoryId}")]
+		//public async Task<IActionResult> GetProfilesByCategory(int categoryId)
+		//{
+		//	var profiles = await _profileService.GetProfilesByCategory(categoryId);
+		//	if (profiles == null || !profiles.Any())
+		//	{
+		//		return NotFound(new BaseResponse("No se encontraron perfiles para esta categoría."));
+		//	}
+
+
+		//	var profileDtos = profiles.Select(p => p.ToDto()).ToList();
+		//	return Ok(new BaseResponse( profileDtos));
+		//}
+
 		[HttpGet("category/{categoryId}")]
 		public async Task<IActionResult> GetProfilesByCategory(int categoryId)
 		{
@@ -124,8 +139,24 @@ namespace backnc.Controllers
 				return NotFound(new BaseResponse("No se encontraron perfiles para esta categoría."));
 			}
 
-			var profileDtos = profiles.Select(p => p.ToDto()).ToList();
-			return Ok(new BaseResponse("Perfiles encontrados", profileDtos, false));
+			var profileDtos = profiles.Select(profile => new ProfileDTO
+			{
+				Id = profile.Id,
+				UserId = profile.UserId,
+				UserName = profile.User.UserName,  // Mapear el nombre del usuario				 
+				phoneNumber = profile.User.phoneNumber,
+				Specialty = profile.Specialty,
+				Experience = profile.Experience,
+				Description = profile.Description,
+				ImageUrl = profile.ImageUrl,
+				Categories = profile.ProfileCategories.Select(pc => new CategoryDTO
+				{
+					Id = pc.CategoryId,
+					Name = pc.Category.Name
+				}).ToList()
+			}).ToList();
+
+			return Ok(new BaseResponse("Perfiles encontrados ", profileDtos));
 		}
 
 		[HttpGet("CurrentUserProfile")]
@@ -177,7 +208,7 @@ namespace backnc.Controllers
 					}).ToList()
 				};
 
-				return Ok(new BaseResponse("Perfil encontrado", profileDto, true));
+				return Ok(new BaseResponse("Encontrado con éxito",profileDto));
 			}
 			catch (Exception ex)
 			{
@@ -195,7 +226,8 @@ namespace backnc.Controllers
 				{
 					Id = profile.Id,
 					UserId = profile.UserId,
-					UserName = profile.User.UserName,  					
+					UserName = profile.User.UserName,  			
+					phoneNumber = profile.User.phoneNumber,
 					Specialty = profile.Specialty,
 					Experience = profile.Experience,
 					Description = profile.Description,
@@ -207,7 +239,7 @@ namespace backnc.Controllers
 					}).ToList()
 				}).ToList();
 
-				return Ok(new BaseResponse("Perfiles encontrados", profileDtos, true));
+				return Ok(new BaseResponse("perfiles encontrados",profileDtos));
 			}
 			catch (Exception ex)
 			{
