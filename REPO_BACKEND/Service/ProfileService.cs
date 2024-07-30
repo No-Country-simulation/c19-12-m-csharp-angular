@@ -36,6 +36,7 @@ namespace backnc.Service
 			return await context.Profiles
 								.Include(p => p.ProfileCategories)
 								.ThenInclude(pc => pc.Category)
+								.Include(p => p.User)
 								.Where(p => p.ProfileCategories.Any(pc => pc.CategoryId == categoryId))
 								.ToListAsync();
 		}
