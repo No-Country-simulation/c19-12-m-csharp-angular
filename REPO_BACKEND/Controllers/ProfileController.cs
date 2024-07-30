@@ -222,8 +222,7 @@ namespace backnc.Controllers
 		}
 	
 
-		[HttpGet("AllProfiles")]
-		[Authorize(Roles = "Admin")]
+		[HttpGet("AllProfiles")]		
 		public async Task<IActionResult> GetAllProfiles()
 		{
 			try
