@@ -8,11 +8,12 @@ import { ProfileService } from '../../services/profile.service';
 import { Profile } from '../../models/profile.interface';
 import { SnackbarService } from '../../../shared/services/snackbar.service';
 import { Router } from '@angular/router';
+import { CategoriesToStringPipe } from '../../pipes/categories-to-string.pipe';
 
 @Component({
   selector: 'app-update-profile',
   standalone: true,
-  imports: [MaterialModule, ReactiveFormsModule, CommonModule],
+  imports: [MaterialModule, ReactiveFormsModule, CommonModule, CategoriesToStringPipe],
   templateUrl: './update-profile.component.html',
   styleUrl: './update-profile.component.scss',
 })
@@ -31,7 +32,7 @@ export class UpdateProfileComponent {
     Experience: ['', [Validators.required]],
     Description: ['', [Validators.required]],
     Image: [null, [Validators.required]],
-    CategoryId: [null, [Validators.required]],
+    CategoryIds: [[], [Validators.required]],
   });
 
   constructor() {
@@ -57,13 +58,24 @@ export class UpdateProfileComponent {
 
   onSubmit() {
     if (this.formProfile.valid) {
-      let formData: any = new FormData();
+      console.log(this.formProfile.value);
+      const formData = new FormData();
+
       Object.keys(this.formProfile.controls).forEach((formControlName) => {
-        formData.append(
-          formControlName,
-          this.formProfile.get(formControlName)!.value
-        );
+        const control = this.formProfile.get(formControlName);
+        if (formControlName === 'CategoryIds') {
+          const categoryIds = control?.value || [];
+          categoryIds.forEach((id: string | number) => {
+            formData.append(`${formControlName}[]`, id.toString());
+          });
+        } else {
+          formData.append(
+            formControlName,
+            control ? control.value : ''
+          );
+        }
       });
+
 
       this.profileService.updateProfile(formData).subscribe({
         next: (response) => {
