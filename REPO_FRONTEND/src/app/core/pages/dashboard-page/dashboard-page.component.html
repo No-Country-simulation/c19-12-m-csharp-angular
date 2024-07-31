@@ -1,3 +1,8 @@
 <div class="p-4">
-    <p>dashboard-page works!</p>
+    @if(user?.role === 'Cliente'){
+        <app-update-profile/>
+    }
+    @if(user?.role === 'Admin'){
+        <app-doughnut-chart/>
+    }
 </div>

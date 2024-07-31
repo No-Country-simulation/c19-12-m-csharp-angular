@@ -35,6 +35,7 @@ builder.Services.AddScoped<IProvinceSerivce, ProvinceService>();
 builder.Services.AddScoped<INeighborhoodService, NeighborhoodService>();
 builder.Services.AddScoped<IUserValidationService, UserValidationService>();
 builder.Services.AddScoped<ProfileService, ProfileService>();
+builder.Services.AddScoped<JobService, JobService>();
 builder.Services.AddScoped<DataSeeder>();
 
 
@@ -68,7 +69,12 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+	.AddJsonOptions(options =>
+{
+	options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+});
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {

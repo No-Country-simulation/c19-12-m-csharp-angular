@@ -7,14 +7,15 @@ import { MaterialModule } from '../../../material/material.module';
 @Component({
   selector: 'app-index',
   standalone: true,
-  imports: [CommonModule,
-            HeaderComponent,
-            FooterComponent,
-            MaterialModule
+  imports: [
+    CommonModule,
+    HeaderComponent,
+    FooterComponent,
+    MaterialModule,
   ],
   templateUrl: './index.component.html',
-  styleUrl: './index.component.scss'
+  styleUrl: './index.component.scss',
 })
 export class IndexComponent {
-
+  
 }

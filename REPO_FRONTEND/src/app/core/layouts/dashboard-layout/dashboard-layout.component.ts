@@ -29,6 +29,11 @@ export class DashboardLayoutComponent {
     );
   }
 
+  toggleDrawer(drawer: any): void {
+    drawer.toggle();
+    this.showFiller = !this.showFiller;
+  }
+
   handleLogout(): void {
     this.authService.logout();
     this.router.navigateByUrl('/auth/login');

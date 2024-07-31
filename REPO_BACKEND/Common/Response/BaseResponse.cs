@@ -18,6 +18,11 @@
 		{
 			this.message = message;
 		}
+		public BaseResponse(string message, object data)
+		{
+			this.message = message;
+			this.data = data;
+		}
 
 		public BaseResponse(string message, object data, bool errorbandera)
 		{

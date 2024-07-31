@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth.service';
 import { UserRegister } from '../../models/user.interface';
 import { SnackbarService } from '../../../shared/services/snackbar.service';
 import { passwordValidator } from '../../models/password.validators';
+import { numericValidator } from '../../models/ndocumento.validators';
 
 @Component({
   selector: 'auth-registro',
@@ -17,8 +18,7 @@ import { passwordValidator } from '../../models/password.validators';
   templateUrl: './registro.component.html',
   styleUrl: './registro.component.scss',
 })
-export class RegistroComponent implements OnInit{
-  
+export class RegistroComponent implements OnInit {
   public hide = true;
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
@@ -53,7 +53,7 @@ export class RegistroComponent implements OnInit{
     ],
     dni: [
       '',
-      [Validators.required, Validators.minLength(7), Validators.maxLength(15)],
+      [Validators.required, Validators.minLength(7), Validators.maxLength(15), numericValidator()],
     ],
     phoneNumber: [
       '',

@@ -12,7 +12,27 @@ namespace backnc.Data.Context
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        }
+
+			modelBuilder.Entity<Job>()
+			   .HasOne(j => j.User)
+			   .WithMany(u => u.Job)
+			   .HasForeignKey(j => j.UserId)
+			   .OnDelete(DeleteBehavior.Restrict);
+			
+			modelBuilder.Entity<ProfileCategory>()
+				.HasKey(pc => new { pc.ProfileId, pc.CategoryId });
+			
+			modelBuilder.Entity<ProfileCategory>()
+				.HasOne(pc => pc.Profile)
+				.WithMany(p => p.ProfileCategories)
+				.HasForeignKey(pc => pc.ProfileId);
+
+			modelBuilder.Entity<ProfileCategory>()
+				.HasOne(pc => pc.Category)
+				.WithMany(c => c.ProfileCategories)
+				.HasForeignKey(pc => pc.CategoryId);
+
+		}
         public DbSet<TodoTest> TodoTests { get; set; }
         public  DbSet<User> Users { get; set; }
         public  DbSet<Role> Roles { get; set; }
@@ -22,5 +42,8 @@ namespace backnc.Data.Context
 		public DbSet<Neighborhood> Neighborhoods { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<Profile> Profiles { get; set; }
+		public DbSet<Category> Categories { get; set; }
+		public DbSet<ProfileCategory> ProfileCategories { get; set; }
+
 	}
 }

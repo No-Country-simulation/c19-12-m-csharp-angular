@@ -13,15 +13,15 @@ using System.Text;
 
 namespace backnc.Service
 {
-    public class UserService : IUserService
-    {
-        private readonly IAppDbContext _context;
+	public class UserService : IUserService
+	{
+		private readonly IAppDbContext _context;
 		private readonly IUserValidationService _userValidationService;
 		private readonly IConfiguration _configuration;
-        public UserService(IAppDbContext context,IConfiguration configuration, IUserValidationService userValidationService)
-        {
-            _context = context;
-            _configuration = configuration;
+		public UserService(IAppDbContext context, IConfiguration configuration, IUserValidationService userValidationService)
+		{
+			_context = context;
+			_configuration = configuration;
 			_userValidationService = userValidationService;
 
 		}
@@ -137,31 +137,30 @@ namespace backnc.Service
 		}
 
 		private string Generate(User user)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            
-            var rol = _context.UserRoles
-            .Where(ur => ur.UserId == user.Id)
-            .Select(ur => ur.Role.Name)       
-            .FirstOrDefault();
-			
-            var claims = new[]
-            {                
+		{
+			var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+			var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+			var rol = _context.UserRoles
+			.Where(ur => ur.UserId == user.Id)
+			.Select(ur => ur.Role.Name)
+			.FirstOrDefault();
+
+			var claims = new[]
+			{
 				new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-				new Claim(ClaimTypes.Role,rol),				
+				new Claim(ClaimTypes.Role,rol),
 			};
-            
-            var token = new JwtSecurityToken(
-                _configuration["Jwt:Issuer"],
-                _configuration["Jwt:Audience"],
-                claims,
-                expires: DateTime.Now.AddMinutes(15),
-                signingCredentials: credentials);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
+			var token = new JwtSecurityToken(
+				_configuration["Jwt:Issuer"],
+				_configuration["Jwt:Audience"],
+				claims,
+				expires: DateTime.Now.AddMinutes(15),
+				signingCredentials: credentials);
 
+			return new JwtSecurityTokenHandler().WriteToken(token);
+		}
 		public async Task<BaseResponse> ValidateToken(string token)
 		{
 			var tokenHandler = new JwtSecurityTokenHandler();
@@ -181,10 +180,10 @@ namespace backnc.Service
 				}, out SecurityToken validatedToken);
 
 				var jwtToken = (JwtSecurityToken)validatedToken;
-				var userName = jwtToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+				var userId = jwtToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
 				var role = jwtToken.Claims.First(x => x.Type == ClaimTypes.Role).Value;
 
-				var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+				var user = await _context.Users.FirstOrDefaultAsync(u => u.Id.ToString() == userId);
 
 				if (user == null)
 				{
@@ -195,7 +194,6 @@ namespace backnc.Service
 				{
 					UserName = user.UserName,
 					Role = role,
-					
 				};
 
 				return Response.Success(userResponse);
@@ -204,7 +202,6 @@ namespace backnc.Service
 			{
 				return Response.ValidationError("Token inválido", new List<string> { "El token es inválido o ha expirado." });
 			}
-		}
-
+		}		
 	}
 }
