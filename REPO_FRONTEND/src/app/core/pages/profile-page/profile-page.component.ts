@@ -28,6 +28,9 @@ import { JobDialogComponent } from '../../components/job-dialog/job-dialog.compo
   styleUrl: './profile-page.component.scss',
 })
 export class ProfilePageComponent {
+  public reviews: number = 0;
+  public reviewsArray: number[] = [];
+  public stars: number = 0;
   public card: Card | null = null;
   public jobs: Job[] = [];
 
@@ -37,7 +40,11 @@ export class ProfilePageComponent {
     private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog
-  ) {}
+  ) {
+    this.reviews = this.generateRandomNumber(1,20);
+    this.stars = this.generateRandomNumber(1, 5);
+    this.reviewsArray = this.generateReviews();
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -75,5 +82,13 @@ export class ProfilePageComponent {
       width: '400px',
       data: job,
     });
+  }
+
+  generateRandomNumber(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  generateReviews(): number[] {
+    return Array.from({ length: this.reviews }, (_, i) => i + 1);
   }
 }
