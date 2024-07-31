@@ -43,3 +43,25 @@
     Contactar
   </a>
 </mat-toolbar>
+<h2 class="text-center text-2xl font-medium mt-2" style="color: #15363a;">Proyectos</h2>
+<div class="mx-2 sm:mx-4 md:mx-8 grid justify-content-center gap-4 my-4 mb-4">
+  @if(jobs.length > 0){
+  <div class="mb-4" *ngFor="let job of jobs">
+    <div class="card col-1 md:col-4 sm:col-6">
+      <div class="flex relative justify-content-center">
+        <img [src]="job.imageUrl" [alt]="job.description" />
+        <button mat-raised-button color="primary" class="absolute bottom-0 right-0 text-center" (click)="openDialog(job)">
+          <mat-icon>build</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  } @else {
+  <div class="flex align-content-center">
+    <mat-icon color="warn">warning</mat-icon>
+    <span class="ml-2 text-lg"> No se encontraron proyectos </span>
+  </div>
+  }
+</div>
+
+<app-footer />
