@@ -22,7 +22,7 @@ import { Category, IdCategory } from '../../models/category.interface';
   templateUrl: './index-page.component.html',
   styleUrl: './index-page.component.scss',
 })
-export class IndexPageComponent implements OnInit {
+export class IndexPageComponent {
   public cards: Card[] = [];
   public categories: Category[] = [];
   public idSelectedCategory?: IdCategory;
@@ -35,10 +35,8 @@ export class IndexPageComponent implements OnInit {
     this.categoryService.getCategories().subscribe((categories) => {
       this.categories = categories;
     });
-  }
-
-  ngOnInit(): void {
     this.idSelectedCategory = this.categoryService.selectedCategory().id;
+
     this.subscribeToFilteredCards();
   }
 

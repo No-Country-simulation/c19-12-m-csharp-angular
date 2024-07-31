@@ -17,15 +17,26 @@ namespace backnc.Service
 			this.rutaAlmacenamiento = configuration["rutaImagenes"]!;
 			this.rutaServidor = configuration["rutaServidor"]!;
 		}
+		//public async Task<List<Profile>> GetAllProfiles()
+		//{
+		//	return await context.Profiles.ToListAsync();
+		//}
+
 		public async Task<List<Profile>> GetAllProfiles()
 		{
-			return await context.Profiles.ToListAsync();
+			return await context.Profiles
+				.Include(p => p.ProfileCategories)
+				.ThenInclude(pc => pc.Category)
+				.Include(p => p.User)				
+				.ToListAsync();
 		}
+
 		public async Task<List<Profile>> GetProfilesByCategory(int categoryId)
 		{
 			return await context.Profiles
 								.Include(p => p.ProfileCategories)
 								.ThenInclude(pc => pc.Category)
+								.Include(p => p.User)
 								.Where(p => p.ProfileCategories.Any(pc => pc.CategoryId == categoryId))
 								.ToListAsync();
 		}
@@ -35,6 +46,7 @@ namespace backnc.Service
 
 			return await context.Profiles.Include(p => p.ProfileCategories)
 										 .ThenInclude(pc => pc.Category)
+										 .Include(p => p.User)										 
 										 .FirstOrDefaultAsync(p => p.UserId == userId);
 		}
 

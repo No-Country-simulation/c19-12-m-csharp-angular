@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { UpdateProfileComponent } from '../../components/update-profile/update-profile.component';
 import { AuthService } from '../../../auth/services/auth.service';
 import { User } from '../../../auth/models/user.interface';
-import { DoughnutChartComponent } from '../../componentes/doughnut-chart/doughnut-chart.component';
+import { DoughnutChartComponent } from '../../components/doughnut-chart/doughnut-chart.component';
 
 @Component({
   selector: 'core-dashboard-page',

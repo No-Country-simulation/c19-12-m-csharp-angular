@@ -17,60 +17,69 @@
   <p class="white-space-normal text-center opacity-80">
     {{ profile?.specialty }}
   </p>
+  <p class="white-space-normal text-center opacity-60">
+    {{ profile?.categories || [] | categoriesToString }}
+  </p>
 </mat-toolbar>
 
-} @else { 
-    <div class="update-profile-container">
-        <h2 class="login__title">Complete su perfil</h2>
-        <form
-          [formGroup]="formProfile"
-          (ngSubmit)="onSubmit()"
-          class="update-profile__form"
-          enctype="multipart/form-data"
-        >
-          <mat-form-field appearance="fill">
-            <mat-label>Especialidad</mat-label>
-            <input matInput formControlName="Specialty" />
-          </mat-form-field>
-      
-          <mat-form-field appearance="fill">
-            <mat-label>Experiencia</mat-label>
-            <input matInput formControlName="Experience" />
-          </mat-form-field>
-      
-          <mat-form-field appearance="fill">
-            <mat-label>Sobre mi</mat-label>
-            <input matInput formControlName="Description" />
-          </mat-form-field>
-      
-          <div class="my-2">
-            <mat-label>Foto</mat-label><br />
-            <input type="file" id="image" (change)="onFileChange($event)" />
-            <img
-              *ngIf="imagePreview"
-              [src]="imagePreview"
-              alt="Image preview"
-              style="max-width: 100px; max-height: 100px"
-            />
-            <mat-error *ngIf="formProfile.get('image')?.hasError('required')">
-              La imagen es requerida
-            </mat-error>
-          </div>
-      
-          <mat-form-field appearance="fill">
-            <mat-label>Category</mat-label>
-            <mat-select formControlName="CategoryId">
-              <mat-option *ngFor="let category of categories" [value]="category.id">
-                {{ category.name }}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="formProfile.get('category')?.hasError('required')">
-              La categoría es requerida
-            </mat-error>
-          </mat-form-field>
-      
-          <button type="submit" mat-raised-button color="primary" [disabled]="formProfile.invalid">Guardar</button>
-        </form>
-      </div>
+} @else {
+<div class="update-profile-container">
+  <h2 class="login__title">Complete su perfil</h2>
+  <form
+    [formGroup]="formProfile"
+    (ngSubmit)="onSubmit()"
+    class="update-profile__form"
+    enctype="multipart/form-data"
+  >
+    <mat-form-field appearance="fill">
+      <mat-label>Especialidad</mat-label>
+      <input matInput formControlName="Specialty" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Experiencia</mat-label>
+      <input matInput formControlName="Experience" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Sobre mi</mat-label>
+      <input matInput formControlName="Description" />
+    </mat-form-field>
+
+    <div class="my-2">
+      <mat-label>Foto</mat-label><br />
+      <input type="file" id="image" (change)="onFileChange($event)" />
+      <img
+        *ngIf="imagePreview"
+        [src]="imagePreview"
+        alt="Image preview"
+        style="max-width: 100px; max-height: 100px"
+      />
+      <mat-error *ngIf="formProfile.get('image')?.hasError('required')">
+        La imagen es requerida
+      </mat-error>
+    </div>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Categorías</mat-label>
+      <mat-select formControlName="CategoryIds" multiple>
+        <mat-option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="formProfile.get('CategoryIds')?.hasError('required')">
+        La categoría es requerida
+      </mat-error>
+    </mat-form-field>
+
+    <button
+      type="submit"
+      mat-raised-button
+      color="primary"
+      [disabled]="formProfile.invalid"
+    >
+      Guardar
+    </button>
+  </form>
+</div>
 }
- 
