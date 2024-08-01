@@ -12,6 +12,8 @@ import { JobService } from '../../services/job.service';
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
 import { MatDialog } from '@angular/material/dialog';
 import { JobDialogComponent } from '../../components/job-dialog/job-dialog.component';
+import { Review } from '../../models/review.interface';
+import { ReviewService } from '../../services/review.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -33,13 +35,16 @@ export class ProfilePageComponent {
   public stars: number = 0;
   public card: Card | null = null;
   public jobs: Job[] = [];
+  public reviewsFake: Review[] = [];
+
 
   constructor(
     private cardService: CardService,
     private jobService: JobService,
     private route: ActivatedRoute,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private reviewService: ReviewService,
   ) {
     this.reviews = this.generateRandomNumber(1,20);
     this.stars = this.generateRandomNumber(1, 5);
@@ -54,6 +59,9 @@ export class ProfilePageComponent {
       } else {
         this.router.navigate(['/']);
       }
+    });
+    this.reviewService.getReviews(this.reviews).subscribe(reviews => {
+      this.reviewsFake = reviews;
     });
   }
 
