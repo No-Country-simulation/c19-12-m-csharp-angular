@@ -39,7 +39,6 @@ export class DashboardLayoutComponent {
     this.authService.logout();
     this.router.navigateByUrl('/auth/login');
   }
-
   goToIndex() {
     this.router.navigate(["/"]);
   }

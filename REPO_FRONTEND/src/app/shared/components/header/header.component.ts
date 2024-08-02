@@ -34,7 +34,6 @@ export class HeaderComponent {
   navigateTo(route : string){
     this.router.navigate([route]);
   }
-
   goToIndex() {
     this.navigateTo("/");
   }
