@@ -125,7 +125,7 @@ using (var scope = app.Services.CreateScope())
 app.UseHttpsRedirection();
 app.UseStaticFiles(new StaticFileOptions
 {
-	FileProvider = new PhysicalFileProvider(@"C:\Users\Mateo\Desktop\mercadochamba\images"),	
+	FileProvider = new PhysicalFileProvider(@"C:/Users/johit/Desktop/mercadochamba/images  "),	
 	RequestPath = "/images"
 });
 
