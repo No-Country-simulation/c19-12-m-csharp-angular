@@ -18,6 +18,7 @@ export class DashboardLayoutComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
   public user: User | null = null;
+  private navigate = inject(Router);
 
   constructor() {
     this.authService.checkAuthStatus().subscribe(
@@ -37,5 +38,8 @@ export class DashboardLayoutComponent {
   handleLogout(): void {
     this.authService.logout();
     this.router.navigateByUrl('/auth/login');
+  }
+  goToIndex() {
+    this.router.navigate(["/"]);
   }
 }
