@@ -36,6 +36,7 @@ builder.Services.AddScoped<INeighborhoodService, NeighborhoodService>();
 builder.Services.AddScoped<IUserValidationService, UserValidationService>();
 builder.Services.AddScoped<ProfileService, ProfileService>();
 builder.Services.AddScoped<JobService, JobService>();
+builder.Services.AddScoped<ClienteService, ClienteService>();
 builder.Services.AddScoped<DataSeeder>();
 
 
