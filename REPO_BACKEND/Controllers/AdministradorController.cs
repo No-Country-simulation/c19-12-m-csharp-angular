@@ -35,7 +35,7 @@ namespace backnc.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> CreateCliente(CreateAdministradorDTO user)
+		public async Task<IActionResult> CreateAdmin(User user)
 		{
 			if (!ModelState.IsValid)
 			{
