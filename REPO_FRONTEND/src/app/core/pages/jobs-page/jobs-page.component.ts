@@ -42,29 +42,13 @@ export class JobsPageComponent {
 
   onFileChange(event: any) {
     const file = event.target.files[0];
-  
     if (file) {
-      if (file.type.startsWith('image/')) {
-        const reader = new FileReader();
-  
-        reader.onload = () => {
-          this.imagePreview = reader.result as string;
-          this.formJob.controls.Image.setValue(file);
-          this.formJob.controls.Image.updateValueAndValidity(); 
-        };
-  
-        reader.readAsDataURL(file);
-      } else {
-        // Si no es una imagen, limpia la vista previa y establece un error
-        this.imagePreview = null;
-        this.formJob.controls.Image.setValue(null); // Limpia el valor
-        this.formJob.controls.Image.setErrors({ invalidType: true });
-      }
-    } else {
-      
-      this.imagePreview = null;
-      this.formJob.controls.Image.setValue(null); // Limpia el valor
-      this.formJob.controls.Image.setErrors({ required: true });
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result;
+        this.formJob.controls.Image.setValue(file);
+      };
+      reader.readAsDataURL(file);
     }
   }
 
