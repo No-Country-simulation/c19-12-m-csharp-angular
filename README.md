@@ -47,7 +47,8 @@ Entre las funcionalidades principales de la aplicación encontramos, un motor de
 - [Guía de Estilo del Proyecto](https://www.figma.com/design/6zpFTDPZMJIABz5thVWbsm/MERCADO-CHAMBA?node-id=0-1&t=B9m0kH87pK3vAA2h-0)
 - [Organización del Proyecto](https://trello.com/b/JJlgL08E/backlog-c19-12-m-csharp-angular)
 - [GitHub del Proyecto](https://github.com/No-Country-simulation/c19-12-m-csharp-angular)
-
+- [Video de Presentación](https://www.canva.com/design/DAGMhAYUV6E/kT8aP4BKrnnvLqKzH2w0UQ/edit)
+  
 ### Algunos iconos
 
 [![My Skills](https://skillicons.dev/icons?i=spring,angular,figma&theme=dark)](https://skillicons.dev)
