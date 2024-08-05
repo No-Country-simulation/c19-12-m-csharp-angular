@@ -9,6 +9,7 @@ import { Profile } from '../../models/profile.interface';
 import { SnackbarService } from '../../../shared/services/snackbar.service';
 import { Router } from '@angular/router';
 import { CategoriesToStringPipe } from '../../pipes/categories-to-string.pipe';
+import { imageValidator } from '../../models/image.validators';
 
 @Component({
   selector: 'app-update-profile',
@@ -31,7 +32,7 @@ export class UpdateProfileComponent {
     Specialty: ['', [Validators.required]],
     Experience: ['', [Validators.required]],
     Description: ['', [Validators.required]],
-    Image: [null, [Validators.required]],
+    Image: [null, [Validators.required, imageValidator()]],
     CategoryIds: [[], [Validators.required]],
   });
 
@@ -46,13 +47,23 @@ export class UpdateProfileComponent {
 
   onFileChange(event: any) {
     const file = event.target.files[0];
+    
     if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result;
-        this.formProfile.controls.Image.setValue(file);
-      };
-      reader.readAsDataURL(file);
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        
+        reader.onload = () => {
+          this.imagePreview = reader.result as string;
+          this.formProfile.controls.Image.setValue(file);
+          this.formProfile.controls.Image.updateValueAndValidity();
+        };
+        
+        reader.readAsDataURL(file);
+      } else {
+        this.imagePreview = null;
+        this.formProfile.controls.Image.setValue(null); 
+        this.formProfile.controls.Image.setErrors({ invalidType: true });
+      }
     }
   }
 
