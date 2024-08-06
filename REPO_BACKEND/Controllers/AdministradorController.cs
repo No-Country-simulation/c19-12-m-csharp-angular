@@ -1,4 +1,5 @@
-﻿using backnc.Common.DTOs.AdministradorDTO;
+﻿using backnc.Common;
+using backnc.Common.DTOs.AdministradorDTO;
 using backnc.Data.POCOEntities;
 using backnc.Service;
 using Microsoft.AspNetCore.Http;
@@ -34,38 +35,48 @@ namespace backnc.Controllers
 			return Ok(cliente);
 		}
 
+		
+
 		[HttpPost]
-		public async Task<IActionResult> CreateAdmin(User user)
+		public async Task<IActionResult> CreateAdmin(CreateAdministradorDTO adminDto)
 		{
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
+
+			var hashedPassword = PasswordHasher.HashPassword(adminDto.Password);
+
+			var user = new User
+			{
+				UserName = adminDto.Username,
+				email = adminDto.Email,
+				Password = hashedPassword // Es recomendable utilizar una función para hash de contraseñas
+			};
 
 			await _administradorService.CreateAdminAsync(user);
 			return CreatedAtAction(nameof(GetAdminById), new { id = user.Id }, user);
 		}
 
 		[HttpPut("{id}")]
-		public async Task<IActionResult> UpdateAdmin(int id, User user)
+		public async Task<IActionResult> UpdateAdmin(int id, CreateAdministradorDTO adminDto)
 		{
-			if (id != user.Id)
-			{
-				return BadRequest("El ID del cliente no coincide");
-			}
-
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
 
-			var existingCliente = await _administradorService.GetAdminByIdAsync(id);
-			if (existingCliente == null)
+			var existingUser = await _administradorService.GetAdminByIdAsync(id);
+			if (existingUser == null)
 			{
 				return NotFound("Cliente no encontrado");
 			}
 
-			await _administradorService.UpdateAdminAsync(user);
+			existingUser.UserName = adminDto.Username;
+			existingUser.email = adminDto.Email;
+			existingUser.Password = PasswordHasher.HashPassword(adminDto.Password);
+
+			await _administradorService.UpdateAdminAsync(existingUser);
 			return NoContent();
 		}
 

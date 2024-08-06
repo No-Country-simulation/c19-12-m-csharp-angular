@@ -1,6 +1,7 @@
 ﻿using backnc.Data.Interface;
 using Microsoft.EntityFrameworkCore;
 using backnc.Data.POCOEntities;
+using backnc.Common.DTOs.AdministradorDTO;
 
 namespace backnc.Service
 {
@@ -31,7 +32,7 @@ namespace backnc.Service
 		{
 			_appDbContext.Users.Add(user);
 			await _appDbContext.SaveChangesAsync();
-
+			
 			var role = await _appDbContext.Roles.FirstOrDefaultAsync(r => r.Name == "Admin");
 			var userRole = new UserRole
 			{
