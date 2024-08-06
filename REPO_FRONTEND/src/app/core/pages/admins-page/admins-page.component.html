@@ -1,10 +1,10 @@
-<div>
+<div class="p-4">
   <div class="update-profile-container p-2">
     <h2 class="login__title">Ingrese nuevos administradores</h2>
     <form
       [formGroup]="formAdmin"
       (ngSubmit)="submit()"
-      class="register__form grid gap-2 justify-content-center m-2"
+      class="register__form grid gap-2 row-gap-4 justify-content-center m-2"
       autocomplete="off"
     >
       <mat-form-field class="register__input-container">
@@ -72,7 +72,7 @@
         >
       </mat-form-field>
 
-      <mat-form-field class="register__input-container">
+      <mat-form-field class="register__input-container col-12 sm:col-4">
         <mat-label for="password">Contraseña</mat-label>
         <div class="flex">
           <input
@@ -116,7 +116,7 @@
         mat-flat-button
         color="primary"
         type="submit"
-        class="login__submit col-4"
+        class="login__submit col-12 sm:col-4"
         [disabled]="formAdmin.invalid"
       >
         Agregar
@@ -136,10 +136,9 @@
     }
   </div>
 
-  <div class="p-4">
+  <div class="w-full overflow-auto">
     <h3 class="font-semibold text-2xl mb-4">Detalles del Usuario</h3>
-    <table mat-table [dataSource]="admins" class="mat-elevation-z8 w-full border border-gray-300">
-  
+    <table mat-table [dataSource]="admins" class="mat-elevation-z8">
       <ng-container matColumnDef="userName">
         <mat-header-cell *matHeaderCellDef class="bg-gray-100 font-medium">Nombre de Usuario</mat-header-cell>
         <mat-cell *matCellDef="let element">{{ element.userName }}</mat-cell>
