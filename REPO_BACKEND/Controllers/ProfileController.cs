@@ -215,6 +215,7 @@ namespace backnc.Controllers
 				return StatusCode(500, new BaseResponse("Error al obtener el perfil.", ex.Message, true));
 			}
 		}
+		
 
 		[HttpGet("AllProfiles")]
 		public async Task<IActionResult> GetAllProfiles()
@@ -244,40 +245,7 @@ namespace backnc.Controllers
 			catch (Exception ex)
 			{
 				return StatusCode(500, new BaseResponse("Error al obtener todos los perfiles.", ex.Message, true));
-			}
-
-			//[HttpGet("ByUserId/{userId}")]		
-			//public async Task<IActionResult> GetProfileByUserId(int userId)
-			//{
-			//	try
-			//	{
-			//		var profile = await _profileService.GetProfileByUser(userId);
-			//		if (profile == null)
-			//		{
-			//			return NotFound(new BaseResponse("Perfil no encontrado."));
-			//		}
-			//		return Ok(new BaseResponse(profile));
-			//	}
-			//	catch (Exception ex)
-			//	{
-			//		return StatusCode(500, new BaseResponse("Error al obtener el perfil.", ex.Message, true));
-			//	}
-			//}
-
-
-			//[HttpGet("AllProfiles")]		
-			//public async Task<IActionResult> GetAllProfiles()
-			//{
-			//	try
-			//	{
-			//		var profiles = await _profileService.GetAllProfiles();
-			//		return Ok(new BaseResponse(profiles));
-			//	}
-			//	catch (Exception ex)
-			//	{
-			//		return StatusCode(500, new BaseResponse("Error al obtener todos los perfiles.", ex.Message, true));
-			//	}
-			//}
+			}			
 		}
 	}
 }
