@@ -27,10 +27,17 @@ export class CategoryService {
     { id: 1, name: 'Refrigeración', icon: 'ac_unit' },
     { id: 2, name: 'Electricidad', icon: 'electric_bolt' },
     { id: 3, name: 'Vidrios', icon: 'window' },
-    { id: 4, name: 'Plomearía', icon: 'build' },
+    { id: 4, name: 'Plomería', icon: 'build' },
     { id: 5, name: 'Carpintería', icon: 'carpenter' },
     { id: 6, name: 'Pintura', icon: 'format_paint' },
     { id: 7, name: 'Mecánica', icon: 'car_crash' },
+    { id: 8, name: 'Programador', icon: 'code' }, 
+    { id: 9, name: 'Profesor', icon: 'school' }, 
+    { id: 10, name: 'Electricista', icon: 'electric_bolt' }, 
+    { id: 11, name: 'Plomero', icon: 'plumbing' },
+    { id: 12, name: 'Odontólogo', icon: 'local_hospital' }, 
+    { id: 13, name: 'Contador', icon: 'attach_money' }, 
+    { id: 14, name: 'Abogado', icon: 'gavel' } 
   ];
 
   getCategories(): Observable<Category[]> {
