@@ -1,4 +1,7 @@
-﻿using backnc.Common.Response;
+﻿using backnc.Common;
+using backnc.Common.DTOs.AdministradorDTO;
+using backnc.Common.DTOs.ClientesDTO;
+using backnc.Common.Response;
 using backnc.Data.POCOEntities;
 using backnc.Service;
 using Microsoft.AspNetCore.Http;
@@ -36,37 +39,55 @@ namespace backnc.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> CreateCliente(User user)
+		public async Task<IActionResult> CreateCliente(CreateClienteDTO clienteDTO)
 		{
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
+
+			var hashedPassword = PasswordHasher.HashPassword(clienteDTO.Password);
+
+			var user = new User
+			{
+				UserName = clienteDTO.UserName,
+				firstName = clienteDTO.FirstName,
+				lastName = clienteDTO.LastName,
+				dni = clienteDTO.dni,
+				address = clienteDTO.address,
+				phoneNumber = clienteDTO.phoneNumber,	
+				email = clienteDTO.Email,
+				Password = hashedPassword 
+			};
 
 			await _clienteService.CreateClienteAsync(user);
 			return CreatedAtAction(nameof(GetClienteById), new { id = user.Id }, user);
 		}
 
 		[HttpPut("{id}")]
-		public async Task<IActionResult> UpdateCliente(int id, User user)
+		public async Task<IActionResult> UpdateCliente(int id, CreateClienteDTO adminDto)
 		{
-			if (id != user.Id)
-			{
-				return BadRequest("El ID del cliente no coincide");
-			}
-
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
 
-			var existingCliente = await _clienteService.GetClienteByIdAsync(id);
-			if (existingCliente == null)
+			var existingUser = await _clienteService.GetClienteByIdAsync(id);
+			if (existingUser == null)
 			{
 				return NotFound("Cliente no encontrado");
 			}
 
-			await _clienteService.UpdateClienteAsync(user);
+			existingUser.UserName = adminDto.UserName;
+			existingUser.email = adminDto.Email;
+			existingUser.firstName = adminDto.FirstName;
+			existingUser.lastName = adminDto.LastName;
+			existingUser.dni = adminDto.dni;
+			existingUser.address = adminDto.address;
+			existingUser.phoneNumber = adminDto.phoneNumber;			
+			existingUser.Password = PasswordHasher.HashPassword(adminDto.Password);
+
+			await _clienteService.UpdateClienteAsync(existingUser);
 			return NoContent();
 		}
 

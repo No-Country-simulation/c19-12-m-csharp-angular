@@ -35,12 +35,25 @@ namespace backnc.Service
 			_appDbContext.Users.Add(user);
 			await _appDbContext.SaveChangesAsync();
 
+			var profile = new Profile
+			{
+				UserId = user.Id,				
+				Specialty = "",
+				Experience = "",
+				Description = "",
+				ImageUrl = ""
+			};
+			_appDbContext.Profiles.Add(profile);
+			await _appDbContext.SaveChangesAsync();
+
 			var role = await _appDbContext.Roles.FirstOrDefaultAsync(r => r.Name == "Cliente");
 			var userRole = new UserRole
 			{
 				UserId = user.Id,
 				RoleId = role.Id
 			};
+
+
 
 			_appDbContext.UserRoles.Add(userRole);
 			await _appDbContext.SaveChangesAsync();

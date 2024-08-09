@@ -30,7 +30,7 @@ namespace backnc.Controllers
 			var cliente = await _administradorService.GetAdminByIdAsync(id);
 			if (cliente == null)
 			{
-				return NotFound("Cliente no encontrado");
+				return NotFound("Administrador no encontrado");
 			}
 			return Ok(cliente);
 		}
@@ -51,7 +51,7 @@ namespace backnc.Controllers
 			{
 				UserName = adminDto.Username,
 				email = adminDto.Email,
-				Password = hashedPassword // Es recomendable utilizar una función para hash de contraseñas
+				Password = hashedPassword
 			};
 
 			await _administradorService.CreateAdminAsync(user);
@@ -69,7 +69,7 @@ namespace backnc.Controllers
 			var existingUser = await _administradorService.GetAdminByIdAsync(id);
 			if (existingUser == null)
 			{
-				return NotFound("Cliente no encontrado");
+				return NotFound("Administrador no encontrado");
 			}
 
 			existingUser.UserName = adminDto.Username;
@@ -86,7 +86,7 @@ namespace backnc.Controllers
 			var cliente = await _administradorService.GetAdminByIdAsync(id);
 			if (cliente == null)
 			{
-				return NotFound("Cliente no encontrado");
+				return NotFound("Administrador no encontrado");
 			}
 
 			await _administradorService.DeleteAdminAsync(id);
