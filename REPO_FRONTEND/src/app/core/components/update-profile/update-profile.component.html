@@ -48,15 +48,19 @@
 
     <div class="my-2">
       <mat-label>Foto</mat-label><br />
-      <input type="file" id="image" (change)="onFileChange($event)" />
+      <input type="file" id="image" (change)="onFileChange($event)" accept=".jpg, .jpeg, .png, .gif"/>
       <img
         *ngIf="imagePreview"
         [src]="imagePreview"
         alt="Image preview"
         style="max-width: 100px; max-height: 100px"
       />
-      <mat-error *ngIf="formProfile.get('image')?.hasError('required')">
+      <div class="info-text">Acepta formatos: jpg, jpeg, png, gif</div>
+      <mat-error *ngIf="formProfile.get('Image')?.hasError('required')">
         La imagen es requerida
+      </mat-error>
+      <mat-error *ngIf="formProfile.get('Image')?.hasError('invalidType')">
+        Solo se permiten imágenes (jpg, jpeg, png, gif)
       </mat-error>
     </div>
 
