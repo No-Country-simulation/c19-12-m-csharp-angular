@@ -48,6 +48,8 @@ Entre las funcionalidades principales de la aplicación encontramos, un motor de
 - [Organización del Proyecto](https://trello.com/b/JJlgL08E/backlog-c19-12-m-csharp-angular)
 - [GitHub del Proyecto](https://github.com/No-Country-simulation/c19-12-m-csharp-angular)
 - [Video de Presentación](https://www.canva.com/design/DAGMhAYUV6E/kT8aP4BKrnnvLqKzH2w0UQ/edit)
+- [Despliege de Backend](https://www.mercado-chamba.somee.com/swagger/index.html)
+- [Sitio Web](https://mercado-chamba.netlify.app/)
   
 ### Algunos iconos
 
