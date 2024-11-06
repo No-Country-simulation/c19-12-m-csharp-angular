@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class StartupService {
-  private url = 'http://www.mercado-chamba.somee.com';
+  private url = 'https://www.mercado-chamba.somee.com';
 
   constructor(private http: HttpClient) { }
 
