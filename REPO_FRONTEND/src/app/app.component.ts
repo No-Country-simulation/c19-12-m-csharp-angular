@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { PingService } from './shared/services/ping.service';
 
 @Component({
   selector: 'app-root',
@@ -10,4 +11,10 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'chicos';
+
+  constructor(private pingService: PingService) {}
+
+  ngOnInit() {
+    this.pingService.sendPing();
+  }
 }
